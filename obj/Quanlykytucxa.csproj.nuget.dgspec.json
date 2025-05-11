@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\c#_cuoiky\\Quanlykytucxa\\Quanlykytucxa.csproj": {}
+    "E:\\QLktx\\QLkytucxa\\Quanlykytucxa.csproj": {}
   },
   "projects": {
-    "E:\\c#_cuoiky\\Quanlykytucxa\\Quanlykytucxa.csproj": {
+    "E:\\QLktx\\QLkytucxa\\Quanlykytucxa.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\c#_cuoiky\\Quanlykytucxa\\Quanlykytucxa.csproj",
+        "projectUniqueName": "E:\\QLktx\\QLkytucxa\\Quanlykytucxa.csproj",
         "projectName": "Quanlykytucxa",
-        "projectPath": "E:\\c#_cuoiky\\Quanlykytucxa\\Quanlykytucxa.csproj",
+        "projectPath": "E:\\QLktx\\QLkytucxa\\Quanlykytucxa.csproj",
         "packagesPath": "C:\\Users\\TAM\\.nuget\\packages\\",
-        "outputPath": "E:\\c#_cuoiky\\Quanlykytucxa\\obj\\",
+        "outputPath": "E:\\QLktx\\QLkytucxa\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\TAM\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -47,6 +47,16 @@
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.10, )"
             }
           },
           "imports": [

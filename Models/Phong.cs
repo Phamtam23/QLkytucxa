@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Quanlykytucxa
+namespace Quanlykytucxa.Models
 {
     public partial class Phong
     {
@@ -16,6 +16,7 @@ namespace Quanlykytucxa
 
         public int MaPhong { get; set; }
         public int MaKhu { get; set; }
+        public int Maloai { get; set; }
         public int SoluongSv { get; set; }
         public int? Soluongdk { get; set; }
         public int? Tienphong { get; set; }
@@ -24,6 +25,7 @@ namespace Quanlykytucxa
         public int? Trangthai { get; set; }
 
         public virtual Khu MaKhuNavigation { get; set; }
+        public virtual LoaiPhong MaloaiNavigation { get; set; }
         public virtual ICollection<DangKyKtx> DangKyKtxes { get; set; }
         public virtual ICollection<Diennuoc> Diennuocs { get; set; }
         public virtual ICollection<YeuCauSuaChua> YeuCauSuaChuas { get; set; }

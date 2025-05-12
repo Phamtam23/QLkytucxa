@@ -5,15 +5,16 @@ using System.Collections.Generic;
 
 namespace Quanlykytucxa.Models
 {
-    public partial class Khu
+    public partial class LoaiPhong
     {
-        public Khu()
+        public LoaiPhong()
         {
             Phongs = new HashSet<Phong>();
         }
 
-        public int MaKhu { get; set; }
-        public string TenKhu { get; set; }
+        public int Maloai { get; set; }
+        public string Tenloai { get; set; }
+        public int? SoluongSv { get; set; }
 
         public virtual ICollection<Phong> Phongs { get; set; }
     }

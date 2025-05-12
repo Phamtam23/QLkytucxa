@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Quanlykytucxa
+namespace Quanlykytucxa.Models
 {
     public partial class SinhVien
     {

@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ - Hệ thống quản lý ký túc xá";
+}
+
+<div class="dangkyphong">
+    <h1 class="title">CHỌN PHÒNG PHÙ HỢP VỚI NHU CẦU BẠN</h1>
+
+    <!-- Bộ lọc -->
+    <div class="filter-section">
+        <div class="filter-row">
+            <div class="filter-item">
+                <label>Học kỳ:</label>
+                <input type="text" value="01" readonly />
+            </div>
+            <div class="filter-item">
+                <label>Năm học:</label>
+                <input type="text" value="2023-2024" readonly />
+            </div>
+            <div class="filter-item">
+                <label>Thời gian ở:</label>
+                <div>
+                    <input type="text" value="15/10/2023 đến 20/10/2023" readonly />
+                </div>
+            </div>
+            <div class="filter-item">
+                <label>Loại phòng:</label>
+                <div>
+                    <input type="checkbox" id="coMayLanh" /> <label for="coMayLanh">Máy lạnh</label>
+                    <input type="checkbox" id="coPhongRieng" /> <label for="coPhongRieng">Nấu ăn</label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <label>Số lượng:</label>
+                <select>
+                    <option>Tất cả</option>
+                    <option>2</option>
+                    <option>4</option>
+                    <option>6</option>
+                </select>
+            </div>
+        </div>
+        <div class="filter-check">
+            <span class="badge">Đã lựa chọn thời gian đăng ký ✓</span>
+        </div>
+    </div>
+
+    <!-- Danh sách phòng -->
+    <div class="room-grid">
+        <div class="room-card">
+            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
+            <h4 class="room-name">A4</h4>
+            <div class="room-info">
+                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
+                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
+                <div><span>👥 Số lượng</span><span class="value">6</span></div>
+            </div>
+            <div class="room-status">Hoạt động tốt</div>
+            <div class="room-price">
+                <span>💵 Giá</span>
+                <span class="value">250,000đ/tháng</span>
+            </div>
+        </div>
+        <div class="room-card">
+            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
+            <h4 class="room-name">A4</h4>
+            <div class="room-info">
+                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
+                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
+                <div><span>👥 Số lượng</span><span class="value">6</span></div>
+            </div>
+            <div class="room-status">Hoạt động tốt</div>
+            <div class="room-price">
+                <span>💵 Giá</span>
+                <span class="value">250,000đ/tháng</span>
+            </div>
+        </div>
+        <div class="room-card">
+            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
+            <h4 class="room-name">A4</h4>
+            <div class="room-info">
+                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
+                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
+                <div><span>👥 Số lượng</span><span class="value">6</span></div>
+            </div>
+            <div class="room-status">Hoạt động tốt</div>
+            <div class="room-price">
+                <span>💵 Giá</span>
+                <span class="value">250,000đ/tháng</span>
+            </div>
+        </div>
+
+    </div>
+</div>

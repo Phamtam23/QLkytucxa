@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Quanlykytucxa
+namespace Quanlykytucxa.Models
 {
     public partial class Diennuoc
     {
         public string MaDn { get; set; }
+        public string TransId { get; set; }
         public int? MaPhong { get; set; }
         public int? Sodien { get; set; }
         public int? Sonuoc { get; set; }

@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Trang chi tiết";
+}
+
+<!-- CSS nội tuyến -->
+<style>
+    .dangkyphong {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        width: 100%;
+        margin: auto;
+    }
+
+    .info-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+ 
+
+    .image-box p {
+        font-style: italic;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+ 
+    .alert {
+        background-color: #fff3cd;
+        padding: 10px;
+        border-left: 5px solid #ffc107;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    thead {
+        background-color: #333;
+        color: white;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+    .highlight-row {
+        background-color: #fff3cd;
+    }
+    .image-box {
+        text-align: center;
+    }
+
+    .main-image {
+        width: 100%;
+        max-width: 450px;
+        height: auto;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+
+    .thumbnail-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .thumbnail-container img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+            .thumbnail-container img.active,
+            .thumbnail-container img:hover {
+                border: 2px solid #007bff;
+            }
+
+    .image-box p {
+        font-style: italic;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+    .image-box img {
+        width: 100%;
+        max-width: 600px;
+        border: 1px solid #ccc;
+    }
+    .room-info p {
+        margin: 10px 0;
+        font-size: 20px;
+    }
+
+</style>
+
+<div class="dangkyphong">
+    <div class="info-container">
+        <div class="image-box">
+            <!-- Ảnh lớn -->
+            <img id="mainImage" class="main-image" src="~/img/room2.jpg" alt="Hình ảnh minh họa" />
+
+            <!-- Ảnh nhỏ -->
+            <div class="thumbnail-container">
+                <img src="~/img/room2.jpg" onclick="changeImage(this)" class="active" />
+                <img src="~/img/room3.jpg" onclick="changeImage(this)" />
+                <img src="~/img/room4.jpg" onclick="changeImage(this)" />
+            </div>
+
+            <p>*Hình ảnh chỉ mang tính chất minh họa</p>
+        </div>
+
+        <div class="room-info">
+            <p><strong>Máy lạnh:</strong> Có</p>
+            <p><strong>Nấu ăn:</strong> Cho phép</p>
+            <p><strong>Số lượng:</strong> 4 thành viên</p>
+            <p><strong>Giá:</strong> 300,000đ/tháng</p>
+            <div class="room-info1">
+                <p><strong>Phòng ở ký túc xá được thiết kế tiện nghi, sạch sẽ và an toàn, tạo không gian sinh hoạt lý tưởng cho sinh viên học tập và nghỉ ngơi</strong> Có</p>
+
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="alert">
+        <ul>
+            <li>Kiểm tra kỹ trước khi đăng ký, không thể hoàn tác khi đã đăng ký xong.</li>
+            <li>Sau khi đăng ký phòng thành công, sẽ có mail thông báo. Đóng tiền đúng thời gian đã quy định.</li>
+        </ul>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Khu</th>
+                <th>Số phòng</th>
+                <th>Giới tính</th>
+                <th>Số lượng hiện tại</th>
+                <th>Còn trống</th>
+                <th>Hoạt động</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i <= 5; i++)
+            {
+            <tr>
+                <td>A@(i.ToString("D2"))</td>
+                <td>@(i.ToString("D2"))</td>
+                <td>Nam</td>
+                <td>0</td>
+                <td>4</td>
+                <td>Còn</td>
+                <td><button class="btn">Đăng ký ở</button></td>
+            </tr>
+            }
+            <tr class="highlight-row">
+                <td>06</td>
+                <td>Nữ</td>
+                <td>0</td>
+                <td>4</td>
+                <td>Không</td>
+                <td><button class="btn" disabled>Không hoạt động</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function changeImage(thumbnail) {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.src = thumbnail.src;
+        const thumbnails = document.querySelectorAll('.thumbnail-container img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+        thumbnail.classList.add('active');
+    }
+</script>

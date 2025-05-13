@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace Quanlykytucxa
+namespace Quanlykytucxa.Models
 {
     public partial class QuanLyKTXContext : DbContext
     {
@@ -17,10 +17,13 @@ namespace Quanlykytucxa
         {
         }
 
+        public virtual DbSet<ChitietDkdichvu> ChitietDkdichvus { get; set; }
         public virtual DbSet<DangKyKtx> DangKyKtxes { get; set; }
+        public virtual DbSet<DichvuKtx> DichvuKtxes { get; set; }
         public virtual DbSet<Diennuoc> Diennuocs { get; set; }
         public virtual DbSet<HoaDon> HoaDons { get; set; }
         public virtual DbSet<Khu> Khus { get; set; }
+        public virtual DbSet<LoaiPhong> LoaiPhongs { get; set; }
         public virtual DbSet<NhanVienQl> NhanVienQls { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
         public virtual DbSet<SinhVien> SinhViens { get; set; }
@@ -31,7 +34,7 @@ namespace Quanlykytucxa
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnections");
+                optionsBuilder.UseSqlServer("Name=DefaultConnections");
             }
         }
 
@@ -39,10 +42,48 @@ namespace Quanlykytucxa
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
 
+            modelBuilder.Entity<ChitietDkdichvu>(entity =>
+            {
+                entity.HasKey(e => new { e.MaDk, e.MaDv })
+                    .HasName("PK__ChitietD__7D9D1B4922C61172");
+
+                entity.ToTable("ChitietDKdichvu");
+
+                entity.Property(e => e.MaDk)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("maDK")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.MaDv)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("maDv")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Ngaydangki)
+                    .HasColumnType("date")
+                    .HasColumnName("ngaydangki");
+
+                entity.Property(e => e.Trangthai).HasColumnName("trangthai");
+
+                entity.HasOne(d => d.MaDkNavigation)
+                    .WithMany(p => p.ChitietDkdichvus)
+                    .HasForeignKey(d => d.MaDk)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChitietDKd__maDK__403A8C7D");
+
+                entity.HasOne(d => d.MaDvNavigation)
+                    .WithMany(p => p.ChitietDkdichvus)
+                    .HasForeignKey(d => d.MaDv)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ChitietDKd__maDv__412EB0B6");
+            });
+
             modelBuilder.Entity<DangKyKtx>(entity =>
             {
                 entity.HasKey(e => e.MaDk)
-                    .HasName("PK__DangKyKT__7A3EF40AF1C8B903");
+                    .HasName("PK__DangKyKT__7A3EF40A8D942706");
 
                 entity.ToTable("DangKyKTX");
 
@@ -75,22 +116,47 @@ namespace Quanlykytucxa
                     .HasMaxLength(20)
                     .HasDefaultValueSql("('Đang ?')");
 
+                entity.Property(e => e.TransId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("transId");
+
                 entity.HasOne(d => d.MaPhongNavigation)
                     .WithMany(p => p.DangKyKtxes)
                     .HasForeignKey(d => d.MaPhong)
-                    .HasConstraintName("FK__DangKyKTX__maPho__38996AB5");
+                    .HasConstraintName("FK__DangKyKTX__maPho__3B75D760");
 
                 entity.HasOne(d => d.MaSvNavigation)
                     .WithMany(p => p.DangKyKtxes)
                     .HasForeignKey(d => d.MaSv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DangKyKTX__maSV__37A5467C");
+                    .HasConstraintName("FK__DangKyKTX__maSV__3A81B327");
+            });
+
+            modelBuilder.Entity<DichvuKtx>(entity =>
+            {
+                entity.HasKey(e => e.MaDv)
+                    .HasName("PK__DichvuKT__7A3EF41167699EAD");
+
+                entity.ToTable("DichvuKTX");
+
+                entity.Property(e => e.MaDv)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("maDV")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Ghichu)
+                    .HasColumnType("text")
+                    .HasColumnName("ghichu");
+
+                entity.Property(e => e.Giadichvu).HasColumnName("giadichvu");
             });
 
             modelBuilder.Entity<Diennuoc>(entity =>
             {
                 entity.HasKey(e => e.MaDn)
-                    .HasName("PK__Diennuoc__7A3EF409E689BB28");
+                    .HasName("PK__Diennuoc__7A3EF4097267577A");
 
                 entity.ToTable("Diennuoc");
 
@@ -114,20 +180,25 @@ namespace Quanlykytucxa
 
                 entity.Property(e => e.Sonuoc).HasColumnName("sonuoc");
 
+                entity.Property(e => e.TransId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("transId");
+
                 entity.HasOne(d => d.MaPhongNavigation)
                     .WithMany(p => p.Diennuocs)
                     .HasForeignKey(d => d.MaPhong)
-                    .HasConstraintName("FK__Diennuoc__maPhon__3B75D760");
+                    .HasConstraintName("FK__Diennuoc__maPhon__440B1D61");
             });
 
             modelBuilder.Entity<HoaDon>(entity =>
             {
                 entity.HasKey(e => e.MaHoaDon)
-                    .HasName("PK__HoaDon__026B4D9AC2EF533A");
+                    .HasName("PK__HoaDon__026B4D9A63D2BD1F");
 
                 entity.ToTable("HoaDon");
 
-                entity.HasIndex(e => e.MaDn, "UQ__HoaDon__7A3EF40878B18700")
+                entity.HasIndex(e => e.MaDn, "UQ__HoaDon__7A3EF408168A331D")
                     .IsUnique();
 
                 entity.Property(e => e.MaHoaDon)
@@ -155,13 +226,13 @@ namespace Quanlykytucxa
                     .WithOne(p => p.HoaDon)
                     .HasForeignKey<HoaDon>(d => d.MaDn)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HoaDon__maDN__3F466844");
+                    .HasConstraintName("FK__HoaDon__maDN__47DBAE45");
             });
 
             modelBuilder.Entity<Khu>(entity =>
             {
                 entity.HasKey(e => e.MaKhu)
-                    .HasName("PK__Khu__26DF73D258F6673E");
+                    .HasName("PK__Khu__26DF73D23333FDB8");
 
                 entity.ToTable("Khu");
 
@@ -174,23 +245,41 @@ namespace Quanlykytucxa
                     .HasMaxLength(50);
             });
 
+            modelBuilder.Entity<LoaiPhong>(entity =>
+            {
+                entity.HasKey(e => e.Maloai)
+                    .HasName("PK__loaiPhon__734B3AEAF30A0FD0");
+
+                entity.ToTable("loaiPhong");
+
+                entity.Property(e => e.Maloai)
+                    .ValueGeneratedNever()
+                    .HasColumnName("maloai");
+
+                entity.Property(e => e.SoluongSv).HasColumnName("soluongSV");
+
+                entity.Property(e => e.Tenloai)
+                    .HasMaxLength(50)
+                    .HasColumnName("tenloai");
+            });
+
             modelBuilder.Entity<NhanVienQl>(entity =>
             {
                 entity.HasKey(e => e.MaNv)
-                    .HasName("PK__NhanVien__7A3EC7D5FE9F4FA2");
+                    .HasName("PK__NhanVien__7A3EC7D5A547C89A");
 
                 entity.ToTable("NhanVienQL");
 
-                entity.HasIndex(e => e.TenDangNhap, "UQ__NhanVien__55F68FC067EC0689")
+                entity.HasIndex(e => e.TenDangNhap, "UQ__NhanVien__55F68FC0409A49CD")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Cccd, "UQ__NhanVien__A955A0AAB1ADC210")
+                entity.HasIndex(e => e.Cccd, "UQ__NhanVien__A955A0AAB86250BB")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email, "UQ__NhanVien__AB6E6164075A8DFF")
+                entity.HasIndex(e => e.Email, "UQ__NhanVien__AB6E616409AE3F0C")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Sdt, "UQ__NhanVien__CA1930A5B8A5899F")
+                entity.HasIndex(e => e.Sdt, "UQ__NhanVien__CA1930A5BBF122E6")
                     .IsUnique();
 
                 entity.Property(e => e.MaNv)
@@ -248,7 +337,7 @@ namespace Quanlykytucxa
             modelBuilder.Entity<Phong>(entity =>
             {
                 entity.HasKey(e => e.MaPhong)
-                    .HasName("PK__Phong__4CD55E108BF88089");
+                    .HasName("PK__Phong__4CD55E1095BC4458");
 
                 entity.ToTable("Phong");
 
@@ -259,6 +348,8 @@ namespace Quanlykytucxa
                 entity.Property(e => e.Loaiphong).HasColumnName("loaiphong");
 
                 entity.Property(e => e.MaKhu).HasColumnName("maKhu");
+
+                entity.Property(e => e.Maloai).HasColumnName("maloai");
 
                 entity.Property(e => e.Mota)
                     .HasColumnType("text")
@@ -276,23 +367,29 @@ namespace Quanlykytucxa
                     .WithMany(p => p.Phongs)
                     .HasForeignKey(d => d.MaKhu)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Phong__maKhu__32E0915F");
+                    .HasConstraintName("FK__Phong__maKhu__34C8D9D1");
+
+                entity.HasOne(d => d.MaloaiNavigation)
+                    .WithMany(p => p.Phongs)
+                    .HasForeignKey(d => d.Maloai)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Phong__maloai__35BCFE0A");
             });
 
             modelBuilder.Entity<SinhVien>(entity =>
             {
                 entity.HasKey(e => e.MaSv)
-                    .HasName("PK__SinhVien__7A227A64CB21D8FE");
+                    .HasName("PK__SinhVien__7A227A64A3023504");
 
                 entity.ToTable("SinhVien");
 
-                entity.HasIndex(e => e.EmailSv, "UQ__SinhVien__87356E204C64D5BD")
+                entity.HasIndex(e => e.EmailSv, "UQ__SinhVien__87356E2023EBE057")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Cccd, "UQ__SinhVien__A955A0AA27FE9A84")
+                entity.HasIndex(e => e.Cccd, "UQ__SinhVien__A955A0AA840616F4")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Sdt, "UQ__SinhVien__CA1930A51BB76F5D")
+                entity.HasIndex(e => e.Sdt, "UQ__SinhVien__CA1930A577F0B174")
                     .IsUnique();
 
                 entity.Property(e => e.MaSv)
@@ -351,7 +448,7 @@ namespace Quanlykytucxa
             modelBuilder.Entity<ThongBao>(entity =>
             {
                 entity.HasKey(e => e.MaThongBao)
-                    .HasName("PK__ThongBao__657CA5398CF3F874");
+                    .HasName("PK__ThongBao__657CA53970739E5D");
 
                 entity.ToTable("ThongBao");
 
@@ -380,13 +477,13 @@ namespace Quanlykytucxa
                     .WithMany(p => p.ThongBaos)
                     .HasForeignKey(d => d.MaSv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ThongBao__maSV__47DBAE45");
+                    .HasConstraintName("FK__ThongBao__maSV__5070F446");
             });
 
             modelBuilder.Entity<YeuCauSuaChua>(entity =>
             {
                 entity.HasKey(e => e.MaYeuCau)
-                    .HasName("PK__YeuCauSu__765F6DD6C05EFF4B");
+                    .HasName("PK__YeuCauSu__765F6DD6460F277A");
 
                 entity.ToTable("YeuCauSuaChua");
 
@@ -412,13 +509,13 @@ namespace Quanlykytucxa
                 entity.HasOne(d => d.MaPhongNavigation)
                     .WithMany(p => p.YeuCauSuaChuas)
                     .HasForeignKey(d => d.MaPhong)
-                    .HasConstraintName("FK__YeuCauSua__maPho__44FF419A");
+                    .HasConstraintName("FK__YeuCauSua__maPho__4D94879B");
 
                 entity.HasOne(d => d.MaSvNavigation)
                     .WithMany(p => p.YeuCauSuaChuas)
                     .HasForeignKey(d => d.MaSv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__YeuCauSuaC__maSV__440B1D61");
+                    .HasConstraintName("FK__YeuCauSuaC__maSV__4CA06362");
             });
 
             OnModelCreatingPartial(modelBuilder);

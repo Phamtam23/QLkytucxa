@@ -1,8 +1,68 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ - Hệ thống quản lý ký túc xá";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="intro-section">
+    <!-- Header -->
+    <div class="intro-header text-center">
+        <h1 class="display-4">Chào mừng đến với Ký túc xá Xanh</h1>
+        <p class="lead">Nơi ở lý tưởng cho sinh viên - Hiện đại, tiện nghi, thân thiện</p>
+    </div>
+
+    <!-- Hình ảnh chính -->
+    <div class="intro-image text-center">
+        <img src="~/img/nen.jpg" alt="Ký túc xá Xanh" class="img-fluid rounded">
+    </div>
+
+    <!-- Mô tả ký túc xá -->
+    <div class="intro-description container mt-5">
+        <h2 class="text-center mb-4">Vì sao chọn Ký túc xá Xanh?</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <i class="fas fa-bed fa-3x mb-3 text-primary"></i>
+                <h4>Phòng ở hiện đại</h4>
+                <p>Phòng ở sạch sẽ, đầy đủ tiện nghi với giường, bàn học, tủ đồ và điều hòa.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-wifi fa-3x mb-3 text-primary"></i>
+                <h4>Wifi tốc độ cao</h4>
+                <p>Kết nối internet nhanh, ổn định, hỗ trợ học tập và giải trí.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-shield-alt fa-3x mb-3 text-primary"></i>
+                <h4>An ninh 24/7</h4>
+                <p>Hệ thống camera và bảo vệ đảm bảo an toàn tuyệt đối cho bạn.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ưu đãi -->
+    <div class="intro-offers container mt-5">
+        <h2 class="text-center mb-4">Ưu đãi đặc biệt</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="offer-card">
+                    <h4>Giảm 20% tháng đầu</h4>
+                    <p>Đăng ký ngay hôm nay để nhận ưu đãi giảm 20% tiền thuê tháng đầu tiên!</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="offer-card">
+                    <h4>Miễn phí dịch vụ vệ sinh</h4>
+                    <p>Miễn phí dọn dẹp phòng hàng tuần trong 3 tháng đầu tiên.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kêu gọi hành động -->
+    <div class="cta-section text-center mt-5">
+        <h3>Đăng ký ngay hôm nay!</h3>
+        <a asp-area="" asp-controller="SinhVien" asp-action="DangKyPhong" class="btn btn-primary btn-lg">Đăng ký phòng</a>
+    </div>
 </div>
+
+@section Scripts {
+    <!-- Bao gồm Font Awesome để sử dụng icon -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

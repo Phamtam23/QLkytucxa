@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Dịch vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="service-title">CHÚNG TÔI CUNG CẤP CÁC DỊCH VỤ</h2>
+
+<div class="service-info">
+    <span>Học kỳ: 01</span>
+    <span>Năm học: 2023-2024</span>
+    <span>Thời gian đăng ký: 15/10/2023 đến 20/10/2023</span>
+    <span>Thời gian sử dụng: 01/10/2023 đến 31/12/2023</span>
+</div>
+
+<div class="service-grid">
+    <div class="service-card">
+        <div class="service-icon">🚲</div>
+        <h3>Gửi xe đạp</h3>
+        <p><strong>Giá:</strong> 15.000đ/tháng</p>
+        <p>Mỗi tháng tiết kiệm được rất nhiều thay vì phải gửi mỗi ngày</p>
+        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
+            <input type="hidden" name="dichVuId" value="1" />
+            <button type="submit" class="register-btn">Đăng ký</button>
+        </form>
+    </div>
+    <div class="service-card">
+        <div class="service-icon">🏍️</div>
+        <h3>Gửi xe máy</h3>
+        <p><strong>Giá:</strong> 20.000đ/tháng</p>
+        <p>An toàn, tiết kiệm.</p>
+        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
+            <input type="hidden" name="dichVuId" value="1" />
+            <button type="submit" class="register-btn">Đăng ký</button>
+        </form>
+    </div>
+    <div class="service-card">
+        <div class="service-icon">🧹</div>
+        <h3>Vệ sinh khu vực</h3>
+        <p><strong>Giá:</strong> 50.000đ/tháng</p>
+        <p>Mỗi 2 tuần sẽ có người dọn dẹp khu vực bạn ở</p>
+        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
+            <input type="hidden" name="dichVuId" value="1" />
+            <button type="submit" class="register-btn">Đăng ký</button>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    .service-title {
+        margin-top: 20px;
+        text-align: center;
+        color: #111;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .service-info {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .service-card {
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .service-icon {
+        font-size: 40px;
+        background-color: #facc15; /* màu vàng */
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .service-card h3 {
+        margin: 10px 0 5px;
+    }
+
+    .service-card p {
+        margin: 4px 0;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .register-btn {
+        margin-top: auto;
+        margin-top: 15px;
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #d4a373;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+        .register-btn:hover {
+            background-color: #c48d5a;
+        }
+
+    .register-btn {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #d4a373;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .register-btn:hover {
+            background-color: #c48d5a;
+        }
+</style>

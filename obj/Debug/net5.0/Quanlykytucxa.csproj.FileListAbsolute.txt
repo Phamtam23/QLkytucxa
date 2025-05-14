@@ -194,3 +194,5 @@ E:\QLktx\QLkytucxa\obj\Debug\net5.0\Quanlykytucxa.genruntimeconfig.cache
 E:\QLktx\QLkytucxa\obj\Debug\net5.0\Razor\Views\Dangkyphong\DetailDK.cshtml.g.cs
 E:\QLktx\QLkytucxa\obj\Debug\net5.0\Razor\Views\Dangkyphong\Index.cshtml.g.cs
 E:\QLktx\QLkytucxa\obj\Debug\net5.0\Razor\Views\Suachua\Index.cshtml.g.cs
+E:\QLktx\QLkytucxa\obj\Debug\net5.0\Razor\Views\Lichsudatphong\Index.cshtml.g.cs
+E:\QLktx\QLkytucxa\obj\Debug\net5.0\Razor\Views\Lichsudatphong\DetailLsdatphong.cshtml.g.cs

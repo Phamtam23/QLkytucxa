@@ -6,33 +6,115 @@
     <title>@ViewData["Title"] - Quanlykytucxa</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #2f353a;
+            color: white;
+            padding: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            background-color: #444;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .menu-item {
+            background-color: #007bff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .submenu {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+            .submenu label {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            .submenu input[type="radio"] {
+                margin-right: 8px;
+            }
+
+            .contain {
+                display: flex;
+            }
+
+            .sidebar {
+                flex: 1;
+            }
+
+            .container {
+                flex: 4;
+            }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Quanlykytucxa</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">ADMIN</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="contain">
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">A</div>
+                <span>VanHiep.Net</span>
+            </div>
+
+            <div class="menu">
+                <div class="menu-item active">
+                    <div class="menu-header">
+                        <ul>
+                            <li>Quan li sinh vien</li>
+                            <li>Quan li sinh vien</li>
+                            <li>Quan li sinh vien</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">

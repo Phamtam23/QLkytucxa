@@ -1,11 +1,10 @@
-﻿
-@{
-    ViewData["Title"] = "Login";
+﻿@{
+    ViewData["Title"] = "Veryfiemail";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 
 }
 @using Quanlykytucxa.Viewmodel;
-@model Loginviewmodel;
+@model VerifyEmailModelView;
 
 <style>
     .account-container {
@@ -33,27 +32,16 @@
 <div class="account-container">
     <div class="account-box">
         <h2 class="text-center mb-4">Login</h2>
-        <form asp-action="Login" asp-area="" method="post">
+        <form asp-action="VerifyEMail" asp-area="" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input asp-for="RemeberMe" class="form-check-input" />
-                    @Html.DisplayNameFor(a => a.RemeberMe)
-                </label>
-                <a class="m-2" asp-controller="Account" asp-action="VerifyEMail" asp-area="">Quên mật khẩu ?</a>
-            </div>
-            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
-            <p class="text-center mt-2" >Chưa có tài khoản? <a asp-controller="Account" asp-area="" asp-action="Register" class="text-decoration-none">Đăng kí</a></p>
+            
+            <input type="submit" value="Verify" class="btn btn-success w-100 p-2" />
+     
             <div class="text-center">
                 <a asp-controller="Home" asp-area="" action="Index" class="text-decoration-none mt-3">Back</a>
             </div>

@@ -1,11 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 
 }
 @using Quanlykytucxa.Viewmodel;
-@model Loginviewmodel;
+@model RegisterviewModel
 
 <style>
     .account-container {
@@ -32,9 +32,14 @@
 
 <div class="account-container">
     <div class="account-box">
-        <h2 class="text-center mb-4">Login</h2>
-        <form asp-action="Login" asp-area="" method="post">
+        <h2 class="text-center mb-4">Register</h2>
+        <form asp-action="Register" asp-area="" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -45,17 +50,15 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input asp-for="RemeberMe" class="form-check-input" />
-                    @Html.DisplayNameFor(a => a.RemeberMe)
-                </label>
-                <a class="m-2" asp-controller="Account" asp-action="VerifyEMail" asp-area="">Quên mật khẩu ?</a>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
-            <p class="text-center mt-2" >Chưa có tài khoản? <a asp-controller="Account" asp-area="" asp-action="Register" class="text-decoration-none">Đăng kí</a></p>
+            <input type="submit" asp-area="" value="Register" class="btn btn-success w-100 p-2" />
+            <p class="text-center mt-2">Đã tồn tại tài khoản? <a asp-controller="Account" asp-area="" asp-action="Login" class="text-decoration-none">Đăng nhập</a></p>
             <div class="text-center">
-                <a asp-controller="Home" asp-area="" action="Index" class="text-decoration-none mt-3">Back</a>
+                <a asp-controller="Home" asp-area=""  action="Index" class="text-decoration-none mt-3">Back</a>
             </div>
         </form>
     </div>

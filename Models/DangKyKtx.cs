@@ -11,9 +11,9 @@ namespace Quanlykytucxa.Models
         {
             ChitietDkdichvus = new HashSet<ChitietDkdichvu>();
         }
-
+    
         public string MaDk { get; set; }
-        public string MaSv { get; set; }
+        public string SinhVienId { get; set; }
         public int? MaPhong { get; set; }
         public string TransId { get; set; }
         public DateTime NgayDangKy { get; set; }
@@ -23,7 +23,7 @@ namespace Quanlykytucxa.Models
         public DateTime? Ngaythanhtoan { get; set; }
 
         public virtual Phong MaPhongNavigation { get; set; }
-        public virtual SinhVien MaSvNavigation { get; set; }
+        public virtual SinhVien SinhVien { get; set; }
         public virtual ICollection<ChitietDkdichvu> ChitietDkdichvus { get; set; }
     }
 }

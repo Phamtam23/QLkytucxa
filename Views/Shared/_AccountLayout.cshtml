@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quanlykytucxa</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/trangchu.css" />
+    <link rel="stylesheet" href="~/css/dangkyphong.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header */
+        .custom-header {
+            background-color: #333; /* Nền đen */
+            padding: 10px 20px;
+        }
+
+        /* Phần bao toàn bộ header */
+        .header_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Logo hoặc tên hệ thống */
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Menu chính */
+        .main-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+            /* Mục trong menu */
+            .main-menu li a {
+                color: white;
+                text-decoration: none;
+                padding: 8px 12px;
+                display: block;
+                transition: color 0.3s ease;
+            }
+
+                /* Hover: chuyển sang màu vàng */
+                .main-menu li a:hover {
+                    color: #ffd700;
+                }
+
+        .intro-image img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+   
+</body>
+</html>

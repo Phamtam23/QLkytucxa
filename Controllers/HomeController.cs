@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Quanlykytucxa.Controllers
 {
-    [Area("Admin")]
+ 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

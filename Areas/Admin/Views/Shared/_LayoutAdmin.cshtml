@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +7,7 @@
     <title>@ViewData["Title"] - Quanlykytucxa</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/fontawesome-free-6.7.2/css/all.css" />
 
     <style>
         body {
@@ -45,17 +47,48 @@
         }
 
         .menu-item {
-            background-color: #007bff;
+            background-color: #2f353a;
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
         }
 
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            cursor: pointer;
+        .menu-header ul {
+            list-style-type: none; /* Xóa dấu chấm */
+            padding: 0; /* Xóa padding */
         }
+
+        .menu-header li {
+            padding: 10px; /* Padding cho từng mục menu */
+            cursor: pointer; /* Hiển thị con trỏ khi hover */
+            transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+            border-bottom: 1px solid #ccc; /* Đường viền dưới mỗi mục */
+        }
+
+            .menu-header li:hover {
+                background-color: #007bff; /* Màu xanh dương sáng khi hover */
+                color: white; /* Màu chữ trắng khi hover */
+            }
+
+            .menu-header li:last-child {
+                border-bottom: none; /* Xóa đường viền cho mục cuối cùng */
+            }
+
+        .menu-header a {
+            color: white; /* Màu chữ */
+            text-decoration: none; /* Xóa gạch chân */
+            display: flex; /* Căn chỉnh icon và text */
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+
+            .menu-header a i {
+                margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+            }
+
+            .menu-header a:hover {
+                background-color: #007bff; /* Màu nền khi hover */
+                color: white; /* Màu chữ khi hover */
+            }
 
         .submenu {
             background-color: white;
@@ -76,17 +109,15 @@
                 margin-right: 8px;
             }
 
-            .contain {
-                display: flex;
-            }
+        .contain {
+            display: flex;
+        }
 
-            .sidebar {
-                flex: 1;
-            }
-
-            .container {
-                flex: 4;
-            }
+        .container {
+            flex: 1;
+            margin: 0;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -101,9 +132,10 @@
                 <div class="menu-item active">
                     <div class="menu-header">
                         <ul>
-                            <li>Quan li sinh vien</li>
-                            <li>Quan li sinh vien</li>
-                            <li>Quan li sinh vien</li>
+                            <li><a href="trang-chu.html"><i class="fa-solid fa-house"></i>Trang chủ</a></li>
+                            <li><a href="thong-bao.html"><i class="fa-solid fa-bell"></i>Thông báo đến</a></li>
+                            <li><a href="cai-dat.html"><i class="fa-solid fa-cog"></i>Cài đặt</a></li>
+                            <li><a href="dang-xuat.html"><i class="fa-solid fa-sign-out-alt"></i>Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>

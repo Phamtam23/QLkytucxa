@@ -1,6 +1,135 @@
-﻿
+﻿﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>ADMIN </h2>
+<h2>Trang chủ</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="background-color: skyblue;">
+                <div class="card-body">
+                    <div class="header">
+                        <h3 class="card-title">Danh sách sinh viên</h3>
+                        <i class="fa-solid fa-user fa-3x"></i>
+                    </div>
+                    <a href="#" class="btn btn-info">Đi tới →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: blueviolet;">
+                <div class="card-body">
+                    <div class="header">
+                        <h3 class="card-title">Phân bố phòng</h3>
+                        <i class="fa-solid fa-building fa-3x"></i>
+                    </div>
+                    <a href="#" class="btn btn-info">Đi tới →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: forestgreen;">
+                <div class="card-body">
+                    <div class="header" style="margin-top: 12px;">
+                        <h3 class="card-title">Thông báo</h3>
+                        <i class="fa-solid fa-bell fa-3x"></i>
+                    </div>
+                    <a href="#" class="btn btn-info">Đi tới →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: crimson;">
+                <div class="card-body">
+                    <div class="header" style="margin-top: 12px;">
+                        <h3 class="card-title">Hóa đơn</h3>
+                        <i class="fa-solid fa-money-bills fa-3x"></i>
+                    </div>
+                    <a href="#" class="btn btn-info">Đi tới →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: darkcyan;">
+                <div class="card-body">
+                    <div class="header">
+                        <h3 class="card-title">Thống kê doanh thu</h3>
+                        <i class="fa-solid fa-chart-simple fa-3x"></i>
+                    </div>
+                    <a href="#" class="btn btn-info">Đi tới →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .col-md-3 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .card {
+        background-color: #3bafda; /* Màu nền của khối */
+        color: white; /* Màu chữ */
+        border-radius: 8px; /* Bo góc */
+        padding: 0px; /* Padding cho khối */
+        text-align: center; /* Căn giữa chữ */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+        display: flex; /* Kích hoạt flexbox */
+        flex-direction: column; /* Đặt chiều dọc */
+        justify-content: space-between; /* Phân bổ không gian giữa các phần tử */
+        height: 100%; /* Đảm bảo card có chiều cao đầy đủ */
+    }
+
+    .card-body {
+        display: flex; /* Kích hoạt flexbox cho phần body */
+        flex-direction: column; /* Đặt chiều dọc */
+        justify-content: space-between; /* Phân bổ không gian giữa các phần tử */
+        flex-grow: 1; /* Để chiếm không gian còn lại */
+    }
+
+    .header {
+        display: flex; /* Kích hoạt Flexbox */
+        padding-left: 5px;
+        padding-right: 20px;
+        padding-bottom: 15px;
+        align-items: center; /* Căn giữa theo chiều dọc */
+        justify-content: space-between; /* Phân bổ không gian giữa các phần tử */
+    }
+
+    .card-title {
+        font-size: 32px; /* Kích thước chữ cho số lượng */
+        margin-top: 0; /* Xóa margin */
+        margin-bottom: 0;
+        margin-left: 20px;
+        margin-right: 10px;
+        text-align: left;
+    }
+
+    .card-text {
+        margin: 10px 0; /* Margin cho văn bản */
+    }
+
+    .btn-info {
+        background-color: rgba(255, 255, 255, 0.2); /* Nền trong suốt */
+        color: white; /* Màu chữ */
+        border: none; /* Xóa border */
+        padding: 10px 20px; /* Padding cho nút */
+        border-radius: 5px; /* Bo góc cho nút */
+        text-decoration: none; /* Xóa underline */
+        transition: background-color 0.3s; /* Thêm hiệu ứng chuyển màu */
+    }
+
+        .btn-info:hover {
+            background-color: rgba(255, 255, 255, 0.5); /* Nền tối hơn khi hover */
+        }
+
+    .icon {
+        width: 30px; /* Kích thước hình ảnh */
+        height: auto; /* Đảm bảo tỷ lệ hình ảnh */
+        margin-left: 10px; /* Khoảng cách giữa chữ và hình ảnh */
+    }
+</style>

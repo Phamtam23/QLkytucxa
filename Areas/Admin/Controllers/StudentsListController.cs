@@ -26,5 +26,11 @@ namespace Quanlykytucxa.Areas.Admin.Controllers
             /*var listSinhVien = _context.Users.OfType<SinhVien>().ToList();*/
             return View(/*listSinhVien*/);
         }
+
+        public IActionResult UpdateSV()
+        {
+            /*var listSinhVien = _context.Users.OfType<SinhVien>().ToList();*/
+            return View(/*listSinhVien*/);
+        }
     }
 }

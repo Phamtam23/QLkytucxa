@@ -11,6 +11,7 @@ using Quanlykytucxa.Models;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Quanlykytucxa.Services.Momo;
 namespace Quanlykytucxa
 {
     public class Startup
@@ -25,6 +26,10 @@ namespace Quanlykytucxa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //--configure kết nói api momo
+            services.Configure<MomoOptionModel>(Configuration.GetSection("MoMoAPI"));
+            services.AddScoped<IMomoservice, Momoservice>();
+
             services.AddControllersWithViews();
             services.AddDbContext<QuanLyKTXContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnections")));
@@ -40,6 +45,7 @@ namespace Quanlykytucxa
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             }).AddEntityFrameworkStores<QuanLyKTXContext>()
                 .AddDefaultTokenProviders();
+          
 
         }
 
@@ -72,6 +78,7 @@ namespace Quanlykytucxa
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}"
+
 
                 );
             });

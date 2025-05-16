@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>Trang chủ</h2>
+<h2 style="font-size: 48px;">Trang chủ</h2>
 
 <div class="container">
     <div class="row">
@@ -14,7 +14,7 @@
                         <h3 class="card-title">Danh sách sinh viên</h3>
                         <i class="fa-solid fa-user fa-3x"></i>
                     </div>
-                    <a href="#" class="btn btn-info">Đi tới →</a>
+                    <a asp-area="Admin" asp-controller="StudentsList" asp-action="Index" class="btn btn-info">Đi tới →</a>
                 </div>
             </div>
         </div>

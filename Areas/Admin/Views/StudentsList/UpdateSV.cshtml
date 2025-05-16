@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "UpdateSV";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var sinhVienTest = Model ?? new Quanlykytucxa.Models.SinhVien
+            {
+                UserName = "sv001",
+                TenSv = "Nguyễn Văn A",
+                NgaySinh = new DateTime(2000, 1, 15),
+                GioiTinh = "Nam",
+                Sdt = "0987654321",
+                Cccd = "123456789012",
+                DiaChi = "123 Đường A, Quận 1, TP.HCM",
+                Email = "nguyenvana@example.com",
+                EmailConfirmed = true
+            };
+}
+
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Chỉnh sửa thông tin sinh viên</h2>
+
+<form asp-action="Edit" method="post" class="mt-4">
+
+    <div class="form-group">
+        <label for="UserName">Mã sinh viên</label>
+        <input type="text" class="form-control" id="UserName" name="UserName" value="@sinhVienTest.UserName" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="TenSv">Họ tên</label>
+        <input type="text" class="form-control" id="TenSv" name="TenSv" value="@sinhVienTest.TenSv" />
+    </div>
+
+    <div class="form-group">
+        <label for="NgaySinh">Ngày sinh</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" value="@sinhVienTest.NgaySinh.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="form-group">
+        <label for="GioiTinh">Giới tính</label>
+        <select class="form-control" id="GioiTinh" name="GioiTinh">
+            <option value="Nam" selected="@(sinhVienTest.GioiTinh == "Nam" ? "selected" : null)">Nam</option>
+            <option value="Nữ" selected="@(sinhVienTest.GioiTinh == "Nữ" ? "selected" : null)">Nữ</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Sdt">Số điện thoại</label>
+        <input type="text" class="form-control" id="Sdt" name="Sdt" value="@sinhVienTest.Sdt" />
+    </div>
+
+    <div class="form-group">
+        <label for="Cccd">CCCD</label>
+        <input type="text" class="form-control" id="Cccd" name="Cccd" value="@sinhVienTest.Cccd" />
+    </div>
+
+    <div class="form-group">
+        <label for="DiaChi">Địa chỉ</label>
+        <input type="text" class="form-control" id="DiaChi" name="DiaChi" value="@sinhVienTest.DiaChi" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@sinhVienTest.Email" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <button type="submit" class="btn btn-primary">Chỉnh về lại</button>
+    <a href="@Url.Action("Index", "SinhVien")" class="btn btn-secondary ml-2">Hủy</a>
+</form>

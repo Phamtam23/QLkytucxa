@@ -1,0 +1,190 @@
+﻿
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var sinhVienTest = Model ?? new Quanlykytucxa.Models.SinhVien
+            {
+                UserName = "sv001",
+                TenSv = "Nguyễn Văn A",
+                NgaySinh = new DateTime(2000, 1, 15),
+                GioiTinh = "Nam",
+                Sdt = "0987654321",
+                Cccd = "123456789012",
+                DiaChi = "123 Đường A, Quận 1, TP.HCM",
+                Email = "nguyenvana@example.com",
+                EmailConfirmed = true
+            };
+}
+
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Thông tin chi tiết sinh viên</h2>
+
+<a href="/TrangChu" class="btn-back">← Trở lại</a>
+
+<div class="container-sm mt-4" style="max-width: 650px;">
+    <div class="card shadow rounded-4 p-4">
+        <div class="row g-0">
+            <div class="col-md-4 bg-light d-flex flex-column align-items-center justify-content-center p-3 border-end">
+                <i class="fa-solid fa-user-graduate fa-3x text-info mb-2"></i>
+                <h5 class="text-primary fw-bold">@sinhVienTest.TenSv</h5>
+                <p><i class="fa fa-calendar me-2 text-secondary"></i> @sinhVienTest.NgaySinh.ToString("dd/MM/yyyy")</p>
+                <p><i class="fa fa-venus-mars me-2 text-secondary"></i> @sinhVienTest.GioiTinh</p>
+            </div>
+            <div class="col-md-8 p-4">
+                <h4 class="mb-4 text-info"><i class="bi bi-info-circle-fill"></i> Thông tin chi tiết</h4>
+
+                <div class="detail-info">
+                    <p><i class="fa fa-id-card me-2 text-secondary"></i><strong>MSSV:</strong> @sinhVienTest.UserName</p>
+                    <p><i class="fa fa-envelope me-2 text-secondary"></i><strong>Email:</strong> @sinhVienTest.Email</p>
+                    <p><i class="fa fa-phone me-2 text-secondary"></i><strong>Số điện thoại:</strong> @sinhVienTest.Sdt</p>
+                    <p><i class="fa fa-address-card me-2 text-secondary"></i><strong>CCCD:</strong> @sinhVienTest.Cccd</p>
+                    <p><i class="fa fa-map-marker-alt me-2 text-secondary"></i><strong>Địa chỉ:</strong> @sinhVienTest.DiaChi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .btn-back {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 6px 12px;
+        font-size: 16px;
+        color: #0d6efd;
+        border: 1px solid #0d6efd;
+        background-color: transparent;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-back:hover {
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+        }
+
+    /* Container chính làm vừa phải, căn giữa */
+    .container-sm {
+        max-width: 700px;
+        margin: 30px auto;
+    }
+
+    /* Card nền trắng, bo góc và bóng nhẹ */
+    .card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 30px;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+        }
+
+    /* Cột bên trái với background nhẹ và bo góc bên trái */
+    .col-md-4.bg-light {
+        background-color: #f0f8ff; /* xanh nhạt dịu mắt */
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+        /* Ảnh avatar tròn */
+        .col-md-4.bg-light img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Tên sinh viên to, màu xanh nổi bật */
+        .col-md-4.bg-light h5 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        /* Thông tin ngày sinh và giới tính */
+        .col-md-4.bg-light p {
+            font-size: 1rem;
+            color: #555;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+            /* Icon nhỏ màu xám */
+            .col-md-4.bg-light p i {
+                margin-right: 10px;
+                color: #888;
+            }
+
+    /* Cột bên phải padding */
+    .col-md-8.p-4 {
+        padding: 30px 30px 30px 40px;
+    }
+
+    /* Tiêu đề phần thông tin chi tiết */
+    .col-md-8 h4 {
+        color: #0056b3;
+        font-weight: 600;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+        .col-md-8 h4 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+    /* Khối thông tin chi tiết từng phần */
+    .detail-info {
+        background-color: #f9f9f9;
+        padding: 20px 25px;
+        border-radius: 12px;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+        /* Các dòng thông tin chi tiết */
+        .detail-info p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: #333;
+        }
+
+            /* Icon trước mỗi thông tin */
+            .detail-info p i {
+                margin-right: 12px;
+                color: #6c757d;
+                font-size: 1.2rem;
+            }
+
+            .detail-info strong {
+                margin-right: 5px
+            }
+
+    .card {
+        padding: 20px !important;
+    }
+
+    }
+</style>

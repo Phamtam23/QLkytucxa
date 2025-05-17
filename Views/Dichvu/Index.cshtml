@@ -2,7 +2,10 @@
     ViewBag.Title = "Dịch vụ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    var count = 0;
+}
+@model List<Quanlykytucxa.Models.DichvuKtx>
 <h2 class="service-title">CHÚNG TÔI CUNG CẤP CÁC DỊCH VỤ</h2>
 
 <div class="service-info">
@@ -13,38 +16,38 @@
 </div>
 
 <div class="service-grid">
-    <div class="service-card">
-        <div class="service-icon">🚲</div>
-        <h3>Gửi xe đạp</h3>
-        <p><strong>Giá:</strong> 15.000đ/tháng</p>
-        <p>Mỗi tháng tiết kiệm được rất nhiều thay vì phải gửi mỗi ngày</p>
-        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
-            <input type="hidden" name="dichVuId" value="1" />
-            <button type="submit" class="register-btn">Đăng ký</button>
-        </form>
-    </div>
-    <div class="service-card">
-        <div class="service-icon">🏍️</div>
-        <h3>Gửi xe máy</h3>
-        <p><strong>Giá:</strong> 20.000đ/tháng</p>
-        <p>An toàn, tiết kiệm.</p>
-        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
-            <input type="hidden" name="dichVuId" value="1" />
-            <button type="submit" class="register-btn">Đăng ký</button>
-        </form>
-    </div>
-    <div class="service-card">
-        <div class="service-icon">🧹</div>
-        <h3>Vệ sinh khu vực</h3>
-        <p><strong>Giá:</strong> 50.000đ/tháng</p>
-        <p>Mỗi 2 tuần sẽ có người dọn dẹp khu vực bạn ở</p>
-        <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
-            <input type="hidden" name="dichVuId" value="1" />
-            <button type="submit" class="register-btn">Đăng ký</button>
-        </form>
-    </div>
-</div>
 
+    @foreach (DichvuKtx item in Model)
+    {
+        
+        <div class="service-card">
+            @if (count == 0)
+            {
+                <div class="service-icon">🚲</div>
+                <p>Mỗi tháng tiết kiệm được rất nhiều thay vì phải gửi mỗi ngày</p>
+
+            }
+            else if (count == 1)
+            {
+                <div class="service-icon">🏍️</div>
+                <p>An toàn, tiết kiệm.</p>
+            }
+            else
+            {
+                <div class="service-icon">🧹</div>
+                <p>Mỗi 2 tuần sẽ có người dọn dẹp khu vực bạn ở</p>
+            }
+            
+            <h3>@item.Ghichu</h3>
+            <p><strong>Giá:</strong>@item.Giadichvu</p>
+            <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
+                <input type="hidden" name="dichVuId" value="1" />
+                <button type="submit" class="register-btn">Đăng ký</button>
+            </form>
+        </div>
+        ++count;
+    }
+</div>
 
 <style>
     .service-title {

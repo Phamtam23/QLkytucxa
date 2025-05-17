@@ -5,7 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Quanlykytucxa.Models;
+using System.Globalization;
 using Quanlykytucxa.Viewmodel;
+using Microsoft.AspNetCore.Http;
+
 namespace Quanlykytucxa.Controllers
 {
     public class AccountController : Controller
@@ -43,20 +46,34 @@ namespace Quanlykytucxa.Controllers
         {
             if (ModelState.IsValid)
             {
+                Random rnd = new Random();
+                string cccd = "";
+                for (int i = 0; i < 10; i++)
+                {
+                    cccd += rnd.Next(0, 10).ToString();
+                }
                 SinhVien users = new SinhVien
                 {
                     TenSv = model.Name,
+                    GioiTinh=model.Gioitinh,
                     Email = model.Email,
                     UserName = model.Email,
-                    Cccd = "11111111",
+                    Cccd = cccd,
+                    Sdt = cccd,
+                    DiaChi ="Da Nang",
+                    NgaySinh= DateTime.ParseExact("23/01/2004", "dd/MM/yyyy", CultureInfo.InvariantCulture)
 
-                };
+            };
 
+               
+                
                 var result = await userManager.CreateAsync(users, model.Password);
+               
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Login", "Account");
+                    await userManager.AddToRoleAsync(users, "client");
+                    return RedirectToAction("Login", "Account",new { area=""});
                 }
                 else
                 {
@@ -79,7 +96,18 @@ namespace Quanlykytucxa.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var user = await userManager.FindByEmailAsync(model.Email);
+                    Response.Cookies.Append("UserId", user.Id, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTimeOffset.UtcNow.AddDays(7) 
+                    });
+                    if (await userManager.IsInRoleAsync(user, "admin"))
+                    {
+                        
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+                    return RedirectToAction("Index", "Home",new {area=""});
                 }
                 else
                 {

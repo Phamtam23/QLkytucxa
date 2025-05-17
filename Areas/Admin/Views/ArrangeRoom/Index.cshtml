@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var danhSachPhongTest = new List<dynamic>();
+
+    for (int i = 1; i <= 30; i++)
+    {
+        danhSachPhongTest.Add(new
+        {
+            MaPhong = 100 + i,
+            MaKhu = (i % 3) + 1,
+            Maloai = (i % 2) + 1,
+            SoluongSv = (i % 6) + 2,
+            Soluongdk = (i % 5),
+            Tienphong = 400000 + ((i % 3) * 50000),
+            Mota = $"Phòng số {i} - {(i % 2 == 0 ? "sạch đẹp" : "mới sửa")}",
+            Loaiphong = (i % 3) + 1,
+            Trangthai = (i % 3) + 1
+        });
+    }
+
+    string GetTrangThaiText(object tt)
+    {
+        if (tt is int value)
+        {
+            return value switch
+            {
+                1 => "Còn chỗ",
+                2 => "Đầy",
+                3 => "Bảo trì",
+                _ => "Không xác định"
+            };
+        }
+        return "Không xác định";
+    }
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 1px solid; padding-left: 10px;">
+        <h2 class="text-primary">🏠 Danh Sách Phòng</h2>
+        <input type="text" id="searchInput" class="form-control w-25" placeholder="🔍 Tìm theo mã phòng, mô tả..." />
+    </div>
+
+    <div style="max-height: 500px; overflow-y: auto;">
+        <table class="table table-bordered table-striped shadow-sm">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>Mã Phòng</th>
+                    <th>Khu</th>
+                    <th>Loại</th>
+                    <th>Sức chứa</th>
+                    <th>Đã đăng ký</th>
+                    <th>Tiền phòng</th>
+                    <th>Mô tả</th>
+                    <th>Loại phòng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in danhSachPhongTest)
+                {
+                    <tr>
+                        <td>@p.MaPhong</td>
+                        <td>@p.MaKhu</td>
+                        <td>@p.Maloai</td>
+                        <td>@p.SoluongSv</td>
+                        <td>@(p.Soluongdk ?? 0)</td>
+                        <td>@(p.Tienphong?.ToString("N0") ?? "0") đ</td>
+                        <td>@p.Mota</td>
+                        <td>@(p.Loaiphong ?? 0)</td>
+                        <td>@GetTrangThaiText(p.Trangthai)</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-sm btn-warning">
+                                <i class="fa-solid fa-cog" style="margin-right: 5px"></i>Sửa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <a href="/Admin/Home/Index" class="btn btn-secondary mt-3">← Thoát</a>
+</div>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var value = this.value.toLowerCase();
+        var rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(function (row) {
+            var text = row.innerText.toLowerCase();
+            row.style.display = text.includes(value) ? "" : "none";
+        });
+    });
+</script>
+
+
+
+

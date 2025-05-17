@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "ArrangeRoom-Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var tenPhong = "Phòng A101";
+
+    // Dữ liệu giả sinh viên đang ở phòng
+    var sinhVienTrongPhong = new List<dynamic>
+    {
+        new { Id = 1, HoTen = "Nguyễn Văn A", MSSV = "SV001" },
+        new { Id = 2, HoTen = "Trần Thị B", MSSV = "SV002" },
+        new { Id = 3, HoTen = "Lê Văn C", MSSV = "SV003" }
+    };
+}
+
+<h2 style="font-size: 48px; padding-left: 10px">Thông tin chi tiết @tenPhong</h2>
+
+<hr />
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>STT</th>
+            <th>MSSV</th>
+            <th>Họ tên</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < sinhVienTrongPhong.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@sinhVienTrongPhong[i].MSSV</td>
+                <td>@sinhVienTrongPhong[i].HoTen</td>
+                <td>
+                    <a href="#" class="btn btn-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<!-- Button để thêm sinh viên -->
+<h4>Thêm sinh viên vào phòng</h4>
+<form method="post">
+    <div class="form-group">
+        <label for="mssv">MSSV:</label>
+        <input type="text" class="form-control" id="mssv" name="mssv" placeholder="Nhập MSSV..." />
+    </div>
+    <div class="form-group">
+        <label for="hoTen">Họ tên:</label>
+        <input type="text" class="form-control" id="hoTen" name="hoTen" placeholder="Nhập họ tên..." />
+    </div>
+    <button type="submit" class="btn btn-success">Thêm sinh viên</button>
+</form>

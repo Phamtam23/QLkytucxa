@@ -24,33 +24,46 @@ namespace Quanlykytucxa.Controllers
         [HttpPost]
         public IActionResult DangKyDichVu(string dichVuId)
         {
-            var userId = Request.Cookies["UserId"];
-            var sinhVien = _context.SinhViens
-         .Include(sv => sv.DangKyKtxes.Where(dk => dk.TrangThai == "Hoạt động"))
-         .ThenInclude(dk => dk.ChitietDkdichvus) // giả sử mối quan hệ ChiTietDichVus trong DangKyKtx
-         .FirstOrDefault(sv => sv.Id == userId);
-
-            if (sinhVien == null)
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Account");
             }
-            var dangKyKtxHoatDong = sinhVien.DangKyKtxes.FirstOrDefault();
-            bool daDangKyDichVu = _context.ChitietDkdichvus.Any(ct => ct.MaDk == dangKyKtxHoatDong.MaDk && ct.MaDv == dichVuId);
-            if (!daDangKyDichVu)
-            {
-                // Thêm mới chi tiết dịch vụ
-                var chiTietDichVu = new ChitietDkdichvu
-                {
-                    MaDk = dangKyKtxHoatDong.MaDk,
-                    MaDv = dichVuId,
-                    Ngaydangki = DateTime.Now,
-                    Trangthai=0
-                };
+            var dangKyKtxHoatDong = _context.DangKyKtxes
+                .FirstOrDefault(dk => dk.SinhVienId == userId
+                                   && (dk.TrangThai == "Hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
 
-                _context.ChitietDkdichvus.Add(chiTietDichVu);
-                _context.SaveChanges();
+
+            if (dangKyKtxHoatDong == null)
+            {
+                TempData["Alert"] = "Bạn chưa có đăng ký KTX đang hoạt động.";
+                return RedirectToAction("Index", "Dichvu",new {area=""});
             }
-            return RedirectToAction("Index");
+
+            bool daDangKyDichVu = _context.ChitietDkdichvus
+                .Any(ct => ct.MaDk == dangKyKtxHoatDong.MaDk && ct.MaDv == dichVuId);
+
+            if (daDangKyDichVu)
+            {
+                TempData["Alert"] = "Bạn đã đăng ký dịch vụ này rồi.";
+                return RedirectToAction("Index", "Dichvu", new { area = "" });
+            }
+
+            // Nếu chưa có thì thêm mới
+            var chiTietDichVu = new ChitietDkdichvu
+            {
+                MaDk = dangKyKtxHoatDong.MaDk,
+                MaDv = dichVuId,
+                Ngaydangki = DateTime.Now,
+                Trangthai = 0
+            };
+
+            _context.ChitietDkdichvus.Add(chiTietDichVu);
+            _context.SaveChanges();
+
+            TempData["Alert"] = "Đăng ký dịch vụ thành công.";
+            return RedirectToAction("Index", "Dichvu", new { area = "" });
         }
+
     }
 }

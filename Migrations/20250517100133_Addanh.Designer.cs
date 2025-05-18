@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quanlykytucxa.Models;
 
 namespace Quanlykytucxa.Migrations
 {
     [DbContext(typeof(QuanLyKTXContext))]
-    partial class QuanLyKTXContextModelSnapshot : ModelSnapshot
+    [Migration("20250517100133_Addanh")]
+    partial class Addanh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,15 @@ namespace Quanlykytucxa.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b7845bf-80ca-4e91-8411-2c0794c5b8f9",
-                            ConcurrencyStamp = "3dfacc30-c136-4f1b-9852-57a396f50d27",
+                            Id = "a46aa989-496f-4460-9974-5ec66b24ba4f",
+                            ConcurrencyStamp = "e9fa71cc-19f3-49f5-b74c-f4f4f456153c",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "9f271b13-a1d9-4d89-9f39-64939d268bf9",
-                            ConcurrencyStamp = "64f358d0-68f3-4ad6-92cb-f74e076f1c81",
+                            Id = "c678d73c-28e5-4767-9b66-f11c185642ab",
+                            ConcurrencyStamp = "177c2548-ebe0-458d-82d0-f52df4a522ef",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -396,9 +398,6 @@ namespace Quanlykytucxa.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("tenloai");
-
-                    b.Property<string>("anh")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Maloai")
                         .HasName("PK__loaiPhon__734B3AEAF30A0FD0");

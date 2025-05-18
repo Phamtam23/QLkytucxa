@@ -15,7 +15,7 @@ namespace Quanlykytucxa.Models
         public int Maloai { get; set; }
         public string Tenloai { get; set; }
         public int? SoluongSv { get; set; }
-
+        public string anh { get; set; }
         public virtual ICollection<Phong> Phongs { get; set; }
     }
 }

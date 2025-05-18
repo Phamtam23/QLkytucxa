@@ -23,7 +23,9 @@ namespace Quanlykytucxa.Models
         public string Mota { get; set; }
         public int? Loaiphong { get; set; }
         public int? Trangthai { get; set; }
-
+        public string? img1 { get; set; }
+        public string? img2 { get; set; }
+        public string? img3 { get; set; }
         public virtual Khu MaKhuNavigation { get; set; }
         public virtual LoaiPhong MaloaiNavigation { get; set; }
         public virtual ICollection<DangKyKtx> DangKyKtxes { get; set; }

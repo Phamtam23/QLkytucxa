@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Quanlykytucxa.Models.HoaDon>
+
+@{
+    ViewBag.Title = "StudentsList-Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var selectedMonth = ViewBag.SelectedMonth as DateTime? ?? DateTime.Now;
+    var prevMonth = selectedMonth.AddMonths(-1);
+    var nextMonth = selectedMonth.AddMonths(1);
+}
+<h2>Hóa đơn tháng @selectedMonth.ToString("MM/yyyy")</h2>
+
+<div class="mb-3 d-flex justify-content-between">
+    <div>
+        <a class="btn btn-secondary" href="@Url.Action("Index", new { month = prevMonth.Month, year = prevMonth.Year })">← Tháng trước</a>
+        <a class="btn btn-secondary" href="@Url.Action("Index", new { month = nextMonth.Month, year = nextMonth.Year })">Tháng sau →</a>
+    </div>
+    <a class="btn btn-success" href="@Url.Action("Create", new { month = selectedMonth.Month, year = selectedMonth.Year })">+ Thêm hóa đơn</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã hóa đơn</th>
+            <th>Mã phòng</th>
+            <th>Tháng</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hoaDon in Model)
+        {
+            <tr>
+                <td>@hoaDon.MaHoaDon</td>
+                <td>@(hoaDon.MaDnNavigation?.MaPhongNavigation?.MaPhong)</td>
+                <td>@hoaDon.Ngaytao?.AddMonths(-1).ToString("MM/yyyy")</td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Details", new { id = hoaDon.MaHoaDon })">Xem</a>
+                    <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = hoaDon.MaHoaDon })">Sửa</a>
+                    <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = hoaDon.MaHoaDon })" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

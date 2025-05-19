@@ -2,7 +2,7 @@
     ViewBag.Title = "Chi tiết phản hồi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@model List<Quanlykytucxa.Models.YeuCauSuaChua>
 <h2>Nếu phòng có sự cố hãy phản hồi</h2>
 
 <div class="info">
@@ -27,15 +27,15 @@
 </div>
 
 <div class="report-section">
-    <select class="dropdown">
-        <option>Cơ sở vật chất</option>
-        <option>Đèn hỏng</option>
-        <option>Bồn cầu nghẹt</option>
-    </select>
-
-    <input type="number" placeholder="Nhập số lượng" class="input-box" />
-
-    <button class="confirm-btn">Xác nhận</button>
+    <form method="post" asp-area="" asp-controller="Suachua" asp-action="Addyeucau">
+        <select name="noidung" class="dropdown">
+            <option>Cơ sở vật chất</option>
+            <option>Đèn hỏng</option>
+            <option>Bồn cầu nghẹt</option>
+        </select>
+        <input type="number" name="soluong" placeholder="Nhập số lượng" class="input-box" min="1" max="50" required />
+        <button class="confirm-btn">Xác nhận</button>
+    </form>
 </div>
 
 <p class="note">
@@ -54,22 +54,18 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Nghẹt bồn cầu</td>
-            <td>1</td>
-            <td>15/10/2023</td>
-            <td><button class="status-btn">CHỜ XÁC NHẬN</button></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Đèn phòng hư</td>
-            <td>1</td>
-            <td>15/10/2023</td>
-            <td><button class="status-btn">CHỜ XÁC NHẬN</button></td>
-            <td></td>
-        </tr>
+        @foreach(YeuCauSuaChua item in Model){
+            var parts = item.Ghichu.Split('|');
+            <tr>
+                <td>@item.MaYeuCau</td>
+                <td>@parts[0]</td>
+                <td>@parts[1]</td>
+                <td>@item.Ngaygui</td>
+                <td><button class="status-btn">@item.TrangThai</button></td>
+                <td></td>
+            </tr>
+        }
+
     </tbody>
 </table>
 

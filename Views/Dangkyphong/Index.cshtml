@@ -1,13 +1,24 @@
 ﻿@{
     ViewData["Title"] = "Trang chủ - Hệ thống quản lý ký túc xá";
+    string cl4 = (ViewBag.SoLuong == 4) ? "selected" : "";
+    string cl8 = (ViewBag.SoLuong == 8) ? "selected" : "";
+    var alert = TempData["Alert"] as string;
 }
-
+@if (!string.IsNullOrEmpty(alert))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Thông báo:</strong> @alert
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@model List<Quanlykytucxa.Models.LoaiPhong>;
 <div class="dangkyphong">
     <h1 class="title">CHỌN PHÒNG PHÙ HỢP VỚI NHU CẦU BẠN</h1>
 
     <!-- Bộ lọc -->
     <div class="filter-section">
         <div class="filter-row">
+
             <div class="filter-item">
                 <label>Học kỳ:</label>
                 <input type="text" value="01" readonly />
@@ -22,72 +33,59 @@
                     <input type="text" value="15/10/2023 đến 20/10/2023" readonly />
                 </div>
             </div>
-            <div class="filter-item">
-                <label>Loại phòng:</label>
-                <div>
-                    <input type="checkbox" id="coMayLanh" /> <label for="coMayLanh">Máy lạnh</label>
-                    <input type="checkbox" id="coPhongRieng" /> <label for="coPhongRieng">Nấu ăn</label>
+            <form method="get" asp-action="Index" asp-area="" asp-controller="Dangkyphong">
+                <div class="filter-item">
+                    <label>Loại phòng:</label>
+                    <div>
+                        <input type="checkbox" id="coMayLanh" name="coMayLanh" value="true" @(ViewBag.CoMayLanh ? "checked" : "") />
+                        <label for="coMayLanh">Máy lạnh</label>
+
+                        <input type="checkbox" id="coNauAn" name="coNauAn" value="true" @(ViewBag.CoNauAn ? "checked" : "") />
+                        <label for="coNauAn">Nấu ăn</label>
+                    </div>
                 </div>
-            </div>
-            <div class="filter-item">
-                <label>Số lượng:</label>
-                <select>
-                    <option>Tất cả</option>
-                    <option>2</option>
-                    <option>4</option>
-                    <option>6</option>
-                </select>
-            </div>
+                <div class="filter-item">
+                    <label>Số lượng:</label>
+                    <select name="soLuong">
+                        <option value="">Tất cả</option>
+                        <option value="4" class="@cl4">4</option>
+                        <option value="8" class="@cl8">8</option>
+                    </select>
+                </div>
+
+                <button type="submit">Lọc</button>
+            </form>
         </div>
         <div class="filter-check">
             <span class="badge">Đã lựa chọn thời gian đăng ký ✓</span>
         </div>
     </div>
 
-    <!-- Danh sách phòng -->
     <div class="room-grid">
-        <div class="room-card">
-            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
-            <h4 class="room-name">A4</h4>
-            <div class="room-info">
-                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
-                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
-                <div><span>👥 Số lượng</span><span class="value">6</span></div>
+        @foreach (var itemp in Model)
+        {
+            var ghichuParts = itemp.Tenloai?.Split('|');
+            var mayLanh = ghichuParts != null && ghichuParts[0].Equals("Không") ? "Không" : "Có";
+            var nauAn = ghichuParts != null && ghichuParts[1].Equals("Không") ? "Không" : "Có";
+            <div class="room-card">
+                <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
+                <h4 class="room-name">@itemp.Maloai.ToString("000")</h4>
+                <div class="room-info">
+                    <div><span>❄ Máy lạnh</span><span class="value">@mayLanh</span></div>
+                    <div><span>🍳 Nấu ăn</span><span class="value">@nauAn</span></div>
+                    <div><span>👥 Số lượng</span><span class="value">@itemp.SoluongSv</span></div>
+                </div>
+                <div class="room-status">Hoạt động tốt</div>
+                <div class="room-price">
+                    <span>💵 Giá</span>
+                    <span class="value">250,000đ/tháng</span>
+                </div>
+                <form asp-action="DetailDK" asp-area="" asp-controller="Dangkyphong" method="post">
+                    <input type="hidden" name="maloai" value="@itemp.Maloai" />
+                    <input type="hidden" name="maylanh" value="@mayLanh" />
+                    <input type="hidden" name="nauan" value="@nauAn" />
+                    <button type="submit" class="register-btn">Đăng ký</button>
+                </form>
             </div>
-            <div class="room-status">Hoạt động tốt</div>
-            <div class="room-price">
-                <span>💵 Giá</span>
-                <span class="value">250,000đ/tháng</span>
-            </div>
-        </div>
-        <div class="room-card">
-            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
-            <h4 class="room-name">A4</h4>
-            <div class="room-info">
-                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
-                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
-                <div><span>👥 Số lượng</span><span class="value">6</span></div>
-            </div>
-            <div class="room-status">Hoạt động tốt</div>
-            <div class="room-price">
-                <span>💵 Giá</span>
-                <span class="value">250,000đ/tháng</span>
-            </div>
-        </div>
-        <div class="room-card">
-            <img src="~/img/room.jpg" alt="Phòng A4" class="room-image" />
-            <h4 class="room-name">A4</h4>
-            <div class="room-info">
-                <div><span>❄ Máy lạnh</span><span class="value">Có</span></div>
-                <div><span>🍳 Nấu ăn</span><span class="value">Cho phép</span></div>
-                <div><span>👥 Số lượng</span><span class="value">6</span></div>
-            </div>
-            <div class="room-status">Hoạt động tốt</div>
-            <div class="room-price">
-                <span>💵 Giá</span>
-                <span class="value">250,000đ/tháng</span>
-            </div>
-        </div>
-
+        }
     </div>
-</div>

@@ -1,7 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Trang chi tiết";
+    var alert = TempData["Alert"] as string;
 }
-
+@model List<Quanlykytucxa.Models.Phong>;
+@if (!string.IsNullOrEmpty(alert))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Thông báo:</strong> @alert
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <!-- CSS nội tuyến -->
 <style>
     .dangkyphong {
@@ -17,7 +25,7 @@
         margin-bottom: 30px;
     }
 
- 
+
 
     .image-box p {
         font-style: italic;
@@ -25,7 +33,7 @@
         margin-top: 5px;
     }
 
- 
+
     .alert {
         background-color: #fff3cd;
         padding: 10px;
@@ -69,6 +77,7 @@
     .highlight-row {
         background-color: #fff3cd;
     }
+
     .image-box {
         text-align: center;
     }
@@ -106,16 +115,17 @@
         font-size: 13px;
         margin-top: 5px;
     }
+
     .image-box img {
         width: 100%;
         max-width: 600px;
         border: 1px solid #ccc;
     }
+
     .room-info p {
         margin: 10px 0;
         font-size: 20px;
     }
-
 </style>
 
 <div class="dangkyphong">
@@ -126,25 +136,24 @@
 
             <!-- Ảnh nhỏ -->
             <div class="thumbnail-container">
-                <img src="~/img/room2.jpg" onclick="changeImage(this)" class="active" />
-                <img src="~/img/room3.jpg" onclick="changeImage(this)" />
-                <img src="~/img/room4.jpg" onclick="changeImage(this)" />
+                <img src="~/img/@Model[0].img1" onclick="changeImage(this)" class="active" />
+                <img src="~/img/@Model[0].img2" onclick="changeImage(this)" />
+                <img src="~/img/@Model[0].img3" onclick="changeImage(this)" />
             </div>
 
             <p>*Hình ảnh chỉ mang tính chất minh họa</p>
         </div>
 
         <div class="room-info">
-            <p><strong>Máy lạnh:</strong> Có</p>
-            <p><strong>Nấu ăn:</strong> Cho phép</p>
-            <p><strong>Số lượng:</strong> 4 thành viên</p>
-            <p><strong>Giá:</strong> 300,000đ/tháng</p>
+            <p><strong>Máy lạnh:</strong>@ViewBag.ml</p>
+            <p><strong>Nấu ăn:</strong> @ViewBag.na</p>
+            <p><strong>Số lượng:</strong>@Model[0].SoluongSv</p>
+            <p><strong>Giá:</strong>@Model[0].Tienphong</p>
             <div class="room-info1">
                 <p><strong>Phòng ở ký túc xá được thiết kế tiện nghi, sạch sẽ và an toàn, tạo không gian sinh hoạt lý tưởng cho sinh viên học tập và nghỉ ngơi</strong> Có</p>
-
             </div>
         </div>
-        
+
     </div>
 
     <div class="alert">
@@ -167,26 +176,31 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 1; i <= 5; i++)
+            @foreach (Phong item in Model)
             {
-            <tr>
-                <td>A@(i.ToString("D2"))</td>
-                <td>@(i.ToString("D2"))</td>
-                <td>Nam</td>
-                <td>0</td>
-                <td>4</td>
-                <td>Còn</td>
-                <td><button class="btn">Đăng ký ở</button></td>
-            </tr>
+
+                string gioitinh = (item.MaPhong - 300 < 0) ? "Nữ" : "Nam";
+                string khu = (item.MaKhu == 1) ? "A" : (item.MaKhu == 2) ? "B" : "C";
+                string trangthai = (item.SoluongSv > item.Soluongdk) ? "Còn" : "Hết";
+                string classa = (item.Trangthai == 0) ? "" : "highlight-row";
+
+                <tr class="@classa">
+                    <td>@khu</td>
+                    <td>@(item.MaPhong.ToString("00000"))</td>
+                    <td>@gioitinh</td>
+                    <td>@item.SoluongSv</td>
+                    <td>@item.SoluongSv-@item.Soluongdk</td>
+                    <td>@trangthai</td>
+                    <td>
+                        <form method="post" asp-area="" asp-controller="Dangkyphong" asp-action="DangKyKTX">
+                            <input type="hidden" name="maPhong" value="@item.MaPhong" />
+                            <button class="btn">Đăng ký ở</button>
+                        </form>
+                    </td>
+                </tr>
+
             }
-            <tr class="highlight-row">
-                <td>06</td>
-                <td>Nữ</td>
-                <td>0</td>
-                <td>4</td>
-                <td>Không</td>
-                <td><button class="btn" disabled>Không hoạt động</button></td>
-            </tr>
+
         </tbody>
     </table>
 </div>

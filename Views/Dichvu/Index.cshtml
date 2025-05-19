@@ -1,6 +1,14 @@
 ﻿@{
     ViewBag.Title = "Dịch vụ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var alert = TempData["Alert"] as string;
+}
+@if (!string.IsNullOrEmpty(alert))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Thông báo:</strong> @alert
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 @{
     var count = 0;
@@ -19,7 +27,7 @@
 
     @foreach (DichvuKtx item in Model)
     {
-        
+
         <div class="service-card">
             @if (count == 0)
             {
@@ -37,11 +45,11 @@
                 <div class="service-icon">🧹</div>
                 <p>Mỗi 2 tuần sẽ có người dọn dẹp khu vực bạn ở</p>
             }
-            
+
             <h3>@item.Ghichu</h3>
             <p><strong>Giá:</strong>@item.Giadichvu</p>
-            <form asp-action="DangKyDichVu" asp-controller="DichVu" method="post">
-                <input type="hidden" name="dichVuId" value="1" />
+            <form asp-action="DangKyDichVu" asp-area="" asp-controller="DichVu" method="post">
+                <input type="hidden" name="dichVuId" value="@item.MaDv" />
                 <button type="submit" class="register-btn">Đăng ký</button>
             </form>
         </div>

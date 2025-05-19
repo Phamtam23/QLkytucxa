@@ -43,33 +43,62 @@ namespace Quanlykytucxa.Controllers
             ViewBag.ml = maylanh;
             ViewBag.na = nauan;
             var dsphong = _context.Phongs.Where(p => p.Maloai == maloai).ToList();
+
             return View(dsphong);
         }
         [HttpPost]
         public IActionResult DangKyKTX(int maphong)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var gioiTinh = _context.SinhViens
+                .Where(sv => sv.Id == userId)
+                .Select(sv => sv.GioiTinh)
+                .FirstOrDefault();
+            string gt = (maphong - 300) > 0 ? "Nam" : "Nữ";
             if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account",new {area=""});
             }
             var phong = _context.Phongs.FirstOrDefault(p => p.MaPhong == maphong);
             var sinhvien = _context.SinhViens.FirstOrDefault(sv => sv.Id== userId);
-            var dk = new DangKyKtx
+            bool dkphong = _context.DangKyKtxes.Any(dk => dk.SinhVienId == userId && (dk.TrangThai == "Hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
+
+
+            if (gioiTinh==gt)
             {
-                MaDk = Guid.NewGuid().ToString("N").Substring(0, 10),
-                SinhVienId = userId,
-                MaPhong = maphong,
-                MaPhongNavigation=phong,
-                SinhVien=sinhvien,
-                TransId="",
-                GhiChu="",
-                NgayDangKy = DateTime.Now,
-                TrangThai = "Đang chờ xử lý"
-            };
-            _context.DangKyKtxes.Add(dk);
-            _context.SaveChanges();
-            return RedirectToAction("DetailLsdatphong", "Lichsudatphong",new {madk= dk.MaDk,area=""});
+                if (dkphong)
+                {
+                    TempData["Alert"] = "Thất bại , bạn đã có phòng trước đó rồi";
+                    return RedirectToAction("Index", "Dangkyphong", new { area = "" });
+                }
+                else
+                {
+                    var dk = new DangKyKtx
+                    {
+                        MaDk = Guid.NewGuid().ToString("N").Substring(0, 10),
+                        SinhVienId = userId,
+                        MaPhong = maphong,
+                        MaPhongNavigation = phong,
+                        SinhVien = sinhvien,
+                        TransId = "",
+                        GhiChu = "",
+                        NgayDangKy = DateTime.Now,
+                        NgayKetThuc = DateTime.Now.AddMonths(5),
+                        TrangThai = "Đang chờ xử lý"
+                    };
+                    _context.DangKyKtxes.Add(dk);
+                    _context.SaveChanges();
+                    return RedirectToAction("DetailLsdatphong", "Lichsudatphong", new { madk = dk.MaDk, area = "" });
+                }
+            }
+            else
+            {
+         
+                TempData["Alert"] = "Vui lòng chọn đúng giới tính";
+                return RedirectToAction("DetailDK", "Dangkyphong", new { area = "" ,maloai=phong.Maloai});
+            }    
+            
+           
         }
     }
 }

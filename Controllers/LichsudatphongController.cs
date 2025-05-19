@@ -40,12 +40,17 @@ namespace Quanlykytucxa.Controllers
             .ThenInclude(ct => ct.MaDvNavigation)     // include chi tiết dịch vụ (tên, giá,...)
         .FirstOrDefault(dk => dk.MaDk == madk);
 
-
+        var dsichvu = _context.ChitietDkdichvus
+         .Where(c => c.MaDk == detailsdphong.MaDk)
+         .ToList();
             if (detailsdphong == null)
             {
                 return NotFound();
             }
-
+            var dsdiennuoc = _context.Diennuocs
+                .Where(dn=>dn.MaPhong==detailsdphong.MaPhong && dn.Ngaytao>=detailsdphong.NgayDangKy && dn.Ngaytao<=detailsdphong.NgayKetThuc).ToList();
+            ViewBag.dsdichvu = dsichvu;
+            ViewBag.dsdiennuoc = dsdiennuoc;
             return View(detailsdphong);
         }
 

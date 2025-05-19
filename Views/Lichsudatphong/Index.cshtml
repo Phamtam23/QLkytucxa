@@ -3,15 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var hocKyHienTai = "Học kỳ 01 - Năm học 2023-2024";
-
-    var lichSuDatPhong = new List<dynamic>
-{
-        new { Phong = "B201", ThoiGian = "01/10/2023 - 31/12/2023", TrangThai = "Đã xác nhận", Gia = "1.500.000đ" },
-        new { Phong = "A302", ThoiGian = "01/01/2024 - 30/04/2024", TrangThai = "Đã hủy", Gia = "1.500.000đ" },
-        new { Phong = "C103", ThoiGian = "01/05/2024 - 31/08/2024", TrangThai = "Chờ duyệt", Gia = "1.500.000đ" }
-    };
 }
 
+@model List<Quanlykytucxa.Models.DangKyKtx>;
 <h2>Lịch sử đặt phòng</h2>
 
 <div class="current-term">
@@ -19,18 +13,22 @@
 </div>
 
 <div class="booking-history">
-    @foreach (var item in lichSuDatPhong)
+    @foreach (DangKyKtx item in Model)
     {
         <div class="booking-card">
             <div class="booking-info">
                 <p class="room-title">
                     <i class="fa-solid fa-building-user"></i>
-                    <strong>Phòng:</strong> @item.Phong
+                    <strong>Phòng:</strong> @(item.MaPhong.HasValue ? item.MaPhong.Value.ToString("D5") : "Chưa có")
                 </p>
-                <p><strong>Thời gian sử dụng:</strong> @item.ThoiGian</p>
+                <p><strong>Thời gian sử dụng:</strong> @item.NgayDangKy-@item.NgayKetThuc</p>
                 <p><strong>Trạng thái:</strong> <span class="status">@item.TrangThai</span></p>
-                <p><strong>Giá:</strong> @item.Gia</p>
-                <button class="detail-btn">Xem chi tiết</button>
+                <p><strong>Giá:</strong> @item.MaPhongNavigation.Tienphong</p>
+                <form asp-action="DetailLsdatphong" method="get" asp-area="" asp-controller="Lichsudatphong">
+                    <input type="hidden" name="madk" value="@item.MaDk" />
+                    <button class="detail-btn">Xem chi tiết</button>
+                </form>
+               
             </div>
             <div class="booking-image">
                 <img src="~/img/nen.jpg" alt="Room" />

@@ -1,7 +1,16 @@
 ﻿@{
     ViewBag.Title = "Chi tiết lịch sử đặt phòng";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<SinhVien> SignInManager;
+@inject UserManager<SinhVien> UserManager
+
+@model Quanlykytucxa.Models.DangKyKtx
 
 <h2 class="header">Thông tin phòng và dịch vụ đã đăng ký</h2>
 
@@ -9,16 +18,17 @@
 <div class="lichsu_top">
 
     <div class="infor">
-        <p><b>Tên phòng</b>: Phòng 111</p>
-        <p><b>Dịch vụ</b>: Có máy lạnh, cho phép nấu ăn</p>
+
+        <p><b>Tên phòng</b>: @Model.MaPhongNavigation.MaPhong.ToString("00000")</p>
+        <p><b>Dịch vụ</b>: @Model.MaPhongNavigation.MaloaiNavigation.Tenloai</p>
         <p><b>Khu</b>: Khu A</p>
-        <p><b>Giá phòng</b>: 400.000 VND</p>
-        <p><b>Thời gian</b>: 2024-2025</p>
+        <p><b>Giá phòng</b>: @Model.MaPhongNavigation.Tienphong</p>
+        <p><b>Thời gian</b>: @Model.NgayDangKy</p>
         <p class="status">
-            <span class="chua">Chưa thanh toán</span>
+            <span class="chua">@Model.TrangThai</span>
         </p>
     </div>
-    
+
     <table class="dichvu">
         <thead>
             <tr>
@@ -28,21 +38,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th>Gửi xe đạp</th>
-                <th>500.000 vnd</th>
-                <th><a href="#">Thanh toán</a></th>
-            </tr>
-            <tr>
-                <th>Gửi xe đạp</th>
-                <th>500.000 vnd</th>
-                <th><a href="#">Thanh toán</a></th>
-            </tr>
-            <tr>
-                <th>Gửi xe đạp</th>
-                <th>500.000 vnd</th>
-                <th><a href="#">Thanh toán</a></th>
-            </tr>
+
+            @foreach (ChitietDkdichvu item in ViewBag.dsdichvu)
+            {
+                <tr>
+                    <th>@item.MaDvNavigation.Ghichu</th>
+                    <th>@item.MaDvNavigation.Giadichvu</th>
+                    <th>
+                        <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
+                            <input type="hidden" name="FullName" value="@user.TenSv" />
+                            <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                            <input type="hidden" name="OrderInformation" value="Thanh toán dịch vụ|@item.MaDk|@item.MaDv" />
+                            <input type="hidden" name="Amount" value="@item.MaDvNavigation.Giadichvu" />
+                            <input type="hidden" name="ExtraData" value="@user.Id" />
+                            @if (item.Trangthai == 1)
+                            {
+                                <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+                            }
+                            else
+                            {
+                                <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán</button>
+                            }
+
+                        </form>
+                    </th>
+                </tr>
+
+            }
         </tbody>
     </table>
 </div>
@@ -52,12 +74,23 @@
     Nếu không thanh toán đúng hạn, bạn sẽ bị đưa vào <b>DANH SÁCH ĐEN</b>,
     bị xóa toàn bộ dịch vụ đã đăng ký và không hoàn tiền.
     <br />
+
+
     <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
-        <input type="hidden" name="FullName" value="Phạm Thiện Tâm" />
+        <input type="hidden" name="FullName" value="@user.TenSv" />
         <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
-        <input type="hidden" name="OrderInformation" value="Thanh toán MoMo cho đơn hàng tại HieuStore" />
-        <input type="hidden" name="Amount" value="1000000" />
-        <button class="btn btn-danger" name="Payurl"  type="submit">Thanh toán tại đây</button>
+        <input type="hidden" name="OrderInformation" value="Thanh toán tiền phòng|@Model.MaPhong" />
+        <input type="hidden" name="Amount" value="@Model.MaPhongNavigation.Tienphong" />
+        <input type="hidden" name="ExtraData" value="@user.Id" />
+        @if (Model.TrangThai.Equals("Đang hoạt đông"))
+        {
+            <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+        }
+        else
+        {
+            <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán tại đây</button>
+        }
+
     </form>
 
 
@@ -70,67 +103,84 @@
     <thead>
         <tr>
             <th>STT</th>
-            <th>Điện đầu</th>
-            <th>Điện cuối</th>
-            <th>Nước đầu</th>
-            <th>Nước cuối</th>
+            <th>Số điện</th>
+            <th>Số nước</th>
+            <th>Giá điện (1/kw)</th>
+            <th>Giá nước(Khối)</th>
             <th>Tổng tiền</th>
-            <th>Loại phòng</th>
+            <th>Số lượng sinh viên</th>
             <th>Phòng</th>
             <th>Trạng thái</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>100</td>
-            <td>150</td>
-            <td>30</td>
-            <td>45</td>
-            <td>200.000</td>
-            <td>4 người</td>
-            <td>101</td>
-            <td><a href="#">Thanh toán</a></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>150</td>
-            <td>200</td>
-            <td>45</td>
-            <td>60</td>
-            <td>210.000</td>
-            <td>4 người</td>
-            <td>101</td>
-            <td class="succec">Đã thanh toán</td>
-        </tr>
+
+        @foreach (Diennuoc dn in ViewBag.dsdiennuoc)
+        {
+            <tr>
+                <td>1</td>
+                <td>@dn.Sodien</td>
+                <td>@dn.Sonuoc</td>
+                <td>@dn.Giadien VND</td>
+                <td>@dn.Gianuoc VND</td>
+                <td>@(dn.Sodien * dn.Giadien + dn.Sonuoc * dn.Gianuoc) VND</td>
+                <td>@Model.MaPhongNavigation.SoluongSv</td>
+                <td>@Model.MaPhongNavigation.MaPhong.ToString("00000") VND</td>
+                <td>
+                    <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
+                        <input type="hidden" name="FullName" value="@user.TenSv" />
+                        <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                        <input type="hidden" name="OrderInformation" value="Thanh toán điện nước|@dn.MaDn" />
+                        <input type="hidden" name="Amount" value="@(dn.Sodien * dn.Giadien + dn.Sonuoc * dn.Gianuoc)" />
+                        <input type="hidden" name="ExtraData" value="@user.Id" />
+                        @if (dn.TransId!=null)
+                        {
+                            <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán</button>
+                        }
+
+                    </form>
+                </td>
+            </tr>
+        }
+
+
     </tbody>
 </table>
 
 <style>
- 
+
     .lichsu_top {
         display: flex;
     }
-    .infor{
-        flex:2;
+
+    .infor {
+        flex: 2;
     }
-    .infor p{
-        font-size:20px;
-    }
+
+        .infor p {
+            font-size: 20px;
+        }
+
     .dichvu {
         flex: 2;
         border-collapse: collapse;
     }
+
     .header {
         color: orange;
         border-bottom: 2px solid orange;
         padding-bottom: 5px;
         margin-top: 20px;
-    }     
-        .dichvu td {
-            border: 1px solid #ccc;
-            padding: 8px;
-        }
+    }
+
+    .dichvu td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
 
     .price {
         font-size: 16px;
@@ -177,6 +227,7 @@
             background-color: #0d6efd;
             color: white;
         }
+
     .dichvu {
         width: 100%;
         border-collapse: collapse;
@@ -205,18 +256,19 @@
                 text-decoration: underline;
                 color: #0056b3;
             }
-        .bill-table a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
+
+    .bill-table a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .bill-table a:hover {
+            text-decoration: underline;
+            color: #0056b3;
         }
 
-            .bill-table a:hover {
-                text-decoration: underline;
-                color: #0056b3;
-            }
-    
-    .succec{
-       color:limegreen;
+    .succec {
+        color: limegreen;
     }
 </style>

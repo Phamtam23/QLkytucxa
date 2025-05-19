@@ -49,11 +49,16 @@ namespace Quanlykytucxa.Controllers
                 return RedirectToAction("Index", "Dichvu", new { area = "" });
             }
 
+            var dv= _context.DichvuKtxes
+                .FirstOrDefault(ct=>ct.MaDv == dichVuId);
+
             // Nếu chưa có thì thêm mới
             var chiTietDichVu = new ChitietDkdichvu
             {
                 MaDk = dangKyKtxHoatDong.MaDk,
                 MaDv = dichVuId,
+                MaDkNavigation = dangKyKtxHoatDong,
+                MaDvNavigation =dv,
                 Ngaydangki = DateTime.Now,
                 Trangthai = 0
             };

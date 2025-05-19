@@ -1,0 +1,89 @@
+﻿@model Quanlykytucxa.ViewModels.ThongKeDichVuViewModel
+
+@{
+    ViewBag.Title = "Statistic-Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Thống kê doanh thu</h2>
+
+<form method="get" class="form-inline mb-3">
+    <label class="mr-2">Từ ngày:</label>
+    <input type="date" name="TuNgay" value="@Model.TuNgay?.ToString("yyyy-MM-dd")" class="form-control mr-3" />
+
+    <label class="mr-2">Đến ngày:</label>
+    <input type="date" name="DenNgay" value="@Model.DenNgay?.ToString("yyyy-MM-dd")" class="form-control mr-3" />
+
+    <button type="submit" class="btn btn-primary">Lọc</button>
+</form>
+
+<div class="row my-3">
+    <div class="col-md-6">
+        <div class="alert alert-success">
+            <strong>Tổng doanh thu:</strong> @Model.TongDoanhThu.ToString("N0") đ
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="alert alert-info">
+            <strong>Số lượt đăng ký:</strong> @Model.TongLuotDangKy
+        </div>
+    </div>
+</div>
+
+<canvas id="doanhThuChart" width="400" height="150"></canvas>
+
+<div style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Sinh viên</th>
+                <th>Dịch vụ</th>
+                <th>Ngày đăng ký</th>
+                <th>Số tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.GiaoDichChiTiet)
+            {
+                <tr>
+                    <td>@item.TenSinhVien</td>
+                    <td>@item.TenDichVu</td>
+                    <td>@item.NgayDangKy?.ToString("dd/MM/yyyy")</td>
+                    <td>@item.SoTien.ToString("N0") đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('doanhThuChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [@string.Join(",", Model.DoanhThuTheoNgay.Select(x => $"'{x.Ngay:dd/MM}'"))],
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: [@string.Join(",", Model.DoanhThuTheoNgay.Select(x => x.DoanhThu))],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 60000000,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('vi-VN') + ' đ';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

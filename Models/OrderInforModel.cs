@@ -11,5 +11,6 @@ namespace Quanlykytucxa.Models
         public string OrderId { get; set; }
         public string OrderInformation { get; set; }
         public double Amount { get; set; }
+        public string ExtraData { get; set; }
     }
 }

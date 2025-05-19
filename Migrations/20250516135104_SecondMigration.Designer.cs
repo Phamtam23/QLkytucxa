@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quanlykytucxa.Models;
 
 namespace Quanlykytucxa.Migrations
 {
     [DbContext(typeof(QuanLyKTXContext))]
-    partial class QuanLyKTXContextModelSnapshot : ModelSnapshot
+    [Migration("20250516135104_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,15 @@ namespace Quanlykytucxa.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da2068b6-9815-4931-b603-599b35340c14",
-                            ConcurrencyStamp = "af0f5a5c-b659-4d0d-87b5-f4f9eac9b244",
+                            Id = "239320f9-5599-43f8-a73e-043e8ebf19fc",
+                            ConcurrencyStamp = "22ce28e8-3dff-4dec-af16-b0afbf70462a",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "1259b379-0e49-4c72-b070-2fdf39caef58",
-                            ConcurrencyStamp = "55f0bd43-8b32-4b1e-9c75-b8e59ffab998",
+                            Id = "c7a36344-3e0b-44b1-a1ed-70d7c2a0781b",
+                            ConcurrencyStamp = "17836e19-b4b3-458d-ba25-04292970be29",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -397,9 +399,6 @@ namespace Quanlykytucxa.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("tenloai");
 
-                    b.Property<string>("anh")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Maloai")
                         .HasName("PK__loaiPhon__734B3AEAF30A0FD0");
 
@@ -525,15 +524,6 @@ namespace Quanlykytucxa.Migrations
                     b.Property<int?>("Trangthai")
                         .HasColumnType("int")
                         .HasColumnName("trangthai");
-
-                    b.Property<string>("img1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("img2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("img3")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaPhong")
                         .HasName("PK__Phong__4CD55E1095BC4458");
@@ -695,9 +685,6 @@ namespace Quanlykytucxa.Migrations
                     b.Property<int?>("MaPhong")
                         .HasColumnType("int")
                         .HasColumnName("maPhong");
-
-                    b.Property<DateTime>("Ngaygui")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SinhVienId")
                         .IsRequired()

@@ -44,6 +44,13 @@ namespace Quanlykytucxa.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            var admin = new IdentityRole("admin");
+            admin.NormalizedName = "admin";
+            var client = new IdentityRole("client");
+            client.NormalizedName = "client";
+            modelBuilder.Entity<IdentityRole>().HasData(admin, client);
+
+
             modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
             modelBuilder.Entity<IdentityUserLogin<string>>()
           .HasKey(l => new { l.LoginProvider, l.ProviderKey });

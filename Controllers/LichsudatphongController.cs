@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Quanlykytucxa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +10,49 @@ namespace Quanlykytucxa.Controllers
 {
     public class LichsudatphongController : Controller
     {
+        private readonly QuanLyKTXContext _context;
+
+        public LichsudatphongController (QuanLyKTXContext context)
+        {
+           this._context = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var dslsdatphong = _context.DangKyKtxes
+            .Where(dk => dk.SinhVienId == userId)
+            .Include(dk => dk.MaPhongNavigation)
+                .ThenInclude(p => p.MaloaiNavigation) // Nếu cần hiện loại phòng
+            .ToList();
+            return View(dslsdatphong);
         }
-        public IActionResult DetailLsdatphong ()
+        public IActionResult DetailLsdatphong(string madk)
         {
-            return View();
+
+          var detailsdphong = _context.DangKyKtxes
+        .Include(dk => dk.MaPhongNavigation)
+            .ThenInclude(p => p.MaloaiNavigation)
+        .Include(dk => dk.ChitietDkdichvus)           // include dịch vụ đăng ký
+            .ThenInclude(ct => ct.MaDvNavigation)     // include chi tiết dịch vụ (tên, giá,...)
+        .FirstOrDefault(dk => dk.MaDk == madk);
+
+        var dsichvu = _context.ChitietDkdichvus
+         .Where(c => c.MaDk == detailsdphong.MaDk)
+         .ToList();
+            if (detailsdphong == null)
+            {
+                return NotFound();
+            }
+            var dsdiennuoc = _context.Diennuocs
+                .Where(dn=>dn.MaPhong==detailsdphong.MaPhong && dn.Ngaytao>=detailsdphong.NgayDangKy && dn.Ngaytao<=detailsdphong.NgayKetThuc).ToList();
+            ViewBag.dsdichvu = dsichvu;
+            ViewBag.dsdiennuoc = dsdiennuoc;
+            return View(detailsdphong);
         }
+
     }
 }

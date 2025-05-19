@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quanlykytucxa.Models;
 
 namespace Quanlykytucxa.Migrations
 {
     [DbContext(typeof(QuanLyKTXContext))]
-    partial class QuanLyKTXContextModelSnapshot : ModelSnapshot
+    [Migration("20250517100929_Addanhloai")]
+    partial class Addanhloai
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,15 @@ namespace Quanlykytucxa.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da2068b6-9815-4931-b603-599b35340c14",
-                            ConcurrencyStamp = "af0f5a5c-b659-4d0d-87b5-f4f9eac9b244",
+                            Id = "7b7845bf-80ca-4e91-8411-2c0794c5b8f9",
+                            ConcurrencyStamp = "3dfacc30-c136-4f1b-9852-57a396f50d27",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "1259b379-0e49-4c72-b070-2fdf39caef58",
-                            ConcurrencyStamp = "55f0bd43-8b32-4b1e-9c75-b8e59ffab998",
+                            Id = "9f271b13-a1d9-4d89-9f39-64939d268bf9",
+                            ConcurrencyStamp = "64f358d0-68f3-4ad6-92cb-f74e076f1c81",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -695,9 +697,6 @@ namespace Quanlykytucxa.Migrations
                     b.Property<int?>("MaPhong")
                         .HasColumnType("int")
                         .HasColumnName("maPhong");
-
-                    b.Property<DateTime>("Ngaygui")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SinhVienId")
                         .IsRequired()

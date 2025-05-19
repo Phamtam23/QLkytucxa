@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quanlykytucxa.Models;
 
 namespace Quanlykytucxa.Migrations
 {
     [DbContext(typeof(QuanLyKTXContext))]
-    partial class QuanLyKTXContextModelSnapshot : ModelSnapshot
+    [Migration("20250517100133_Addanh")]
+    partial class Addanh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,15 +51,15 @@ namespace Quanlykytucxa.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da2068b6-9815-4931-b603-599b35340c14",
-                            ConcurrencyStamp = "af0f5a5c-b659-4d0d-87b5-f4f9eac9b244",
+                            Id = "a46aa989-496f-4460-9974-5ec66b24ba4f",
+                            ConcurrencyStamp = "e9fa71cc-19f3-49f5-b74c-f4f4f456153c",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "1259b379-0e49-4c72-b070-2fdf39caef58",
-                            ConcurrencyStamp = "55f0bd43-8b32-4b1e-9c75-b8e59ffab998",
+                            Id = "c678d73c-28e5-4767-9b66-f11c185642ab",
+                            ConcurrencyStamp = "177c2548-ebe0-458d-82d0-f52df4a522ef",
                             Name = "client",
                             NormalizedName = "client"
                         });
@@ -397,9 +399,6 @@ namespace Quanlykytucxa.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("tenloai");
 
-                    b.Property<string>("anh")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Maloai")
                         .HasName("PK__loaiPhon__734B3AEAF30A0FD0");
 
@@ -695,9 +694,6 @@ namespace Quanlykytucxa.Migrations
                     b.Property<int?>("MaPhong")
                         .HasColumnType("int")
                         .HasColumnName("maPhong");
-
-                    b.Property<DateTime>("Ngaygui")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("SinhVienId")
                         .IsRequired()

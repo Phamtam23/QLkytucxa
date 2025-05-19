@@ -11,6 +11,7 @@ namespace Quanlykytucxa.Services.Momo
     public interface IMomoservice
     {
         Task<MomoCreatePaymentResponeModel> CreatePaymentMomo(OrderInforModel model);
-        MomoExcuseResponeModel PaymentExecuteAsync(IQueryCollection collection);
+       MomoExcuseResponeModel PaymentExecuteAsync(IQueryCollection collection);
+        public bool IsValidSignature(MomoInformodel data);
     }
 }

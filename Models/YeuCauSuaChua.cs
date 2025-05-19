@@ -20,8 +20,8 @@ namespace Quanlykytucxa.Models
 
         public string Ghichu { get; set; }
 
+        public DateTime Ngaygui { get; set; }
         public string TrangThai { get; set; }
-
         // Navigation property nên đặt trùng với tên FK là SinhVien
         public virtual SinhVien SinhVien { get; set; }
 

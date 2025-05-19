@@ -1,20 +1,37 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<SinhVien> SignInManager;
+@inject UserManager<SinhVien> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Dangkyphong" asp-action="Index">Đăng ký phòng</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Lichsudatphong" asp-action="Index">Lịch sử phòng ở</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Suachua" asp-action="Index">Sửa chữa</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Dichvu" asp-action="Index">Dịch vụ</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="SinhVien" asp-action="ThanhToanDienNuoc">@user.TenSv</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+    </li>
+}
 
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-area=""  asp-controller="Account" asp-action="Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-area=""  asp-controller="Account" asp-action="Register">Register</a>
-        </li>
-    }
-
-    

@@ -3,9 +3,11 @@ using System.Linq;
 using Quanlykytucxa.Models;
 using Quanlykytucxa.ViewModels;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quanlykytucxa.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Area("Admin")]
     public class StatisticController : Controller
     {

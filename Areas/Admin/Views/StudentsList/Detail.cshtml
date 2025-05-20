@@ -1,45 +1,32 @@
-﻿
+﻿@model Quanlykytucxa.Models.SinhVien
 
 @{
     ViewBag.Title = "StudentsList-Detail";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-
-    var sinhVienTest = Model ?? new Quanlykytucxa.Models.SinhVien
-            {
-                UserName = "sv001",
-                TenSv = "Nguyễn Văn A",
-                NgaySinh = new DateTime(2000, 1, 15),
-                GioiTinh = "Nam",
-                Sdt = "0987654321",
-                Cccd = "123456789012",
-                DiaChi = "123 Đường A, Quận 1, TP.HCM",
-                Email = "nguyenvana@example.com",
-                EmailConfirmed = true
-            };
 }
 
-<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Thông tin chi tiết sinh viên</h2>
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Thông tin chi tiết người dùng</h2>
 
-<a href="/TrangChu" class="btn-back">← Trở lại</a>
+<a asp-area="Admin" asp-controller="StudentsList" asp-action="Index" class="btn-back">← Trở lại</a>
 
 <div class="container-sm mt-4" style="max-width: 650px;">
     <div class="card shadow rounded-4 p-4">
         <div class="row g-0">
             <div class="col-md-4 bg-light d-flex flex-column align-items-center justify-content-center p-3 border-end">
-                <i class="fa-solid fa-user-graduate fa-3x text-info mb-2"></i>
-                <h5 class="text-primary fw-bold">@sinhVienTest.TenSv</h5>
-                <p><i class="fa fa-calendar me-2 text-secondary"></i> @sinhVienTest.NgaySinh.ToString("dd/MM/yyyy")</p>
-                <p><i class="fa fa-venus-mars me-2 text-secondary"></i> @sinhVienTest.GioiTinh</p>
+                <i class="fa-solid fa-circle-user fa-4x text-info mb-2"></i>
+                <h5 class="text-primary fw-bold">@Model.TenSv</h5>
+                <p><i class="fa fa-calendar me-2 text-secondary"></i> @Model.NgaySinh.ToString("dd/MM/yyyy")</p>
+                <p><i class="fa fa-venus-mars me-2 text-secondary"></i> @Model.GioiTinh</p>
             </div>
             <div class="col-md-8 p-4">
                 <h4 class="mb-4 text-info"><i class="bi bi-info-circle-fill"></i> Thông tin chi tiết</h4>
 
                 <div class="detail-info">
-                    <p><i class="fa fa-id-card me-2 text-secondary"></i><strong>MSSV:</strong> @sinhVienTest.UserName</p>
-                    <p><i class="fa fa-envelope me-2 text-secondary"></i><strong>Email:</strong> @sinhVienTest.Email</p>
-                    <p><i class="fa fa-phone me-2 text-secondary"></i><strong>Số điện thoại:</strong> @sinhVienTest.Sdt</p>
-                    <p><i class="fa fa-address-card me-2 text-secondary"></i><strong>CCCD:</strong> @sinhVienTest.Cccd</p>
-                    <p><i class="fa fa-map-marker-alt me-2 text-secondary"></i><strong>Địa chỉ:</strong> @sinhVienTest.DiaChi</p>
+                    <p><i class="fa fa-id-card me-2 text-secondary"></i><strong>Mã người dùng:</strong> @Model.Id</p>
+                    <p><i class="fa fa-envelope me-2 text-secondary"></i><strong>Email:</strong> @Model.Email</p>
+                    <p><i class="fa fa-phone me-2 text-secondary"></i><strong>Số điện thoại:</strong> @Model.Sdt</p>
+                    <p><i class="fa fa-address-card me-2 text-secondary"></i><strong>CCCD:</strong> @Model.Cccd</p>
+                    <p><i class="fa fa-map-marker-alt me-2 text-secondary"></i><strong>Địa chỉ:</strong> @Model.DiaChi</p>
                 </div>
             </div>
         </div>

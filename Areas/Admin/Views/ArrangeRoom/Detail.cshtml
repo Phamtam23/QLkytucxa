@@ -1,18 +1,11 @@
-﻿@{
+﻿@model PhongDetailViewModel
+
+@{
     ViewBag.Title = "ArrangeRoom-Detail";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-    var tenPhong = "Phòng A101";
-
-    // Dữ liệu giả sinh viên đang ở phòng
-    var sinhVienTrongPhong = new List<dynamic>
-    {
-        new { Id = 1, HoTen = "Nguyễn Văn A", MSSV = "SV001" },
-        new { Id = 2, HoTen = "Trần Thị B", MSSV = "SV002" },
-        new { Id = 3, HoTen = "Lê Văn C", MSSV = "SV003" }
-    };
 }
 
-<h2 style="font-size: 48px; padding-left: 10px">Thông tin chi tiết @tenPhong</h2>
+<h2 style="font-size: 48px; padding-left: 10px">Thông tin chi tiết @Model.TenPhong</h2>
 
 <hr />
 
@@ -26,14 +19,18 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < sinhVienTrongPhong.Count; i++)
+        @for (int i = 0; i < Model.SinhVienTrongPhong.Count; i++)
         {
             <tr>
                 <td>@(i + 1)</td>
-                <td>@sinhVienTrongPhong[i].MSSV</td>
-                <td>@sinhVienTrongPhong[i].HoTen</td>
+                <td>@Model.SinhVienTrongPhong[i].MSSV</td>
+                <td>@Model.SinhVienTrongPhong[i].HoTen</td>
                 <td>
-                    <a href="#" class="btn btn-danger btn-sm">Xóa</a>
+                    <form asp-area="Admin" asp-controller="ArrangeRoom" asp-action="DeleteStudent" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa sinh viên này?');" style="display:inline;">
+                        <input type="hidden" name="maPhong" value="@Model.MaPhong" />
+                        <input type="hidden" name="mssv" value="@Model.SinhVienTrongPhong[i].MSSV" />
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
                 </td>
             </tr>
         }
@@ -44,14 +41,11 @@
 
 <!-- Button để thêm sinh viên -->
 <h4>Thêm sinh viên vào phòng</h4>
-<form method="post">
+<form asp-area="Admin" asp-controller="ArrangeRoom" asp-action="AddStudent" method="post">
+    <input type="hidden" name="maPhong" value="@Model.MaPhong" />
     <div class="form-group">
-        <label for="mssv">MSSV:</label>
-        <input type="text" class="form-control" id="mssv" name="mssv" placeholder="Nhập MSSV..." />
+        <label>MSSV</label>
+        <input class="form-control" name="mssv" placeholder="Nhập MSSV" required />
     </div>
-    <div class="form-group">
-        <label for="hoTen">Họ tên:</label>
-        <input type="text" class="form-control" id="hoTen" name="hoTen" placeholder="Nhập họ tên..." />
-    </div>
-    <button type="submit" class="btn btn-success">Thêm sinh viên</button>
+    <button class="btn btn-success" type="submit">Thêm sinh viên</button>
 </form>

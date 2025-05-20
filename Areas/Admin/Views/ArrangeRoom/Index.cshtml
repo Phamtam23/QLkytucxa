@@ -1,44 +1,23 @@
-﻿@{
+﻿@model List<Quanlykytucxa.Models.PhongViewModel>
+
+@{
     ViewBag.Title = "ArrangeRoom-Index";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-
-    var danhSachPhongTest = new List<dynamic>();
-
-    for (int i = 1; i <= 30; i++)
-    {
-        danhSachPhongTest.Add(new
-        {
-            MaPhong = 100 + i,
-            MaKhu = (i % 3) + 1,
-            Maloai = (i % 2) + 1,
-            SoluongSv = (i % 6) + 2,
-            Soluongdk = (i % 5),
-            Tienphong = 400000 + ((i % 3) * 50000),
-            Mota = $"Phòng số {i} - {(i % 2 == 0 ? "sạch đẹp" : "mới sửa")}",
-            Loaiphong = (i % 3) + 1,
-            Trangthai = (i % 3) + 1
-        });
-    }
-
-    string GetTrangThaiText(object tt)
-    {
-        if (tt is int value)
-        {
-            return value switch
-            {
-                1 => "Còn chỗ",
-                2 => "Đầy",
-                3 => "Bảo trì",
-                _ => "Không xác định"
-            };
-        }
-        return "Không xác định";
-    }
 }
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 1px solid; padding-left: 10px;">
         <h2 class="text-primary">🏠 Danh Sách Phòng</h2>
-        <input type="text" id="searchInput" class="form-control w-25" placeholder="🔍 Tìm theo mã phòng, mô tả..." />
+        <input type="text" id="searchInput" class="form-control w-25" placeholder="🔍 Tìm theo mã phòng..." />
+    </div>
+
+    <div class="alert alert-info d-flex justify-content-between align-items-center mb-3">
+        <strong>Bộ lọc loại phòng:</strong>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary filter-btn" style="margin-left: 5px" data-filter="máy lạnh">❄️ Máy lạnh</button>
+            <button class="btn btn-outline-success filter-btn" style="margin-left: 5px" data-filter="cho nấu ăn">🍳 Cho nấu ăn</button>
+            <button class="btn btn-outline-dark filter-btn" style="margin-left: 5px" data-filter="both">✅ Cả hai</button>
+            <button class="btn btn-outline-secondary" style="margin-left: 5px" id="clearFilter">🧹 Bỏ lọc</button>
+        </div>
     </div>
 
     <div style="max-height: 500px; overflow-y: auto;">
@@ -47,31 +26,29 @@
                 <tr>
                     <th>Mã Phòng</th>
                     <th>Khu</th>
-                    <th>Loại</th>
                     <th>Sức chứa</th>
                     <th>Đã đăng ký</th>
                     <th>Tiền phòng</th>
-                    <th>Mô tả</th>
                     <th>Loại phòng</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in danhSachPhongTest)
+                @foreach (var p in Model)
                 {
                     <tr>
                         <td>@p.MaPhong</td>
-                        <td>@p.MaKhu</td>
-                        <td>@p.Maloai</td>
+                        <td>@p.TenKhu</td>
                         <td>@p.SoluongSv</td>
-                        <td>@(p.Soluongdk ?? 0)</td>
-                        <td>@(p.Tienphong?.ToString("N0") ?? "0") đ</td>
-                        <td>@p.Mota</td>
-                        <td>@(p.Loaiphong ?? 0)</td>
-                        <td>@GetTrangThaiText(p.Trangthai)</td>
+                        <td>@p.Soluongdk</td>
+                        <td>@p.Tienphong.ToString("N0") đ</td>
+                        <td>@p.TenLoaiPhong</td>
+                        <td class="fw-bold text-white text-center" style="background-color:@(p.Soluongdk >= p.SoluongSv ? "#dc3545" : "#28a745")">
+                            @GetTrangThaiText(p.Soluongdk, p.SoluongSv)
+                        </td>
                         <td class="text-center">
-                            <a href="#" class="btn btn-sm btn-warning">
+                            <a asp-area="Admin" asp-controller="ArrangeRoom" asp-action="Detail" asp-route-id="@p.MaPhong" class="btn btn-sm btn-warning">
                                 <i class="fa-solid fa-magnifying-glass" style="margin-right: 5px"></i>Xem chi tiết
                             </a>
                         </td>
@@ -86,17 +63,71 @@
 </div>
 
 <script>
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        var value = this.value.toLowerCase();
-        var rows = document.querySelectorAll("table tbody tr");
+    let currentSearch = "";
+    let currentFilter = "";
 
-        rows.forEach(function (row) {
-            var text = row.innerText.toLowerCase();
-            row.style.display = text.includes(value) ? "" : "none";
+    const searchInput = document.getElementById("searchInput");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const clearButton = document.getElementById("clearFilter");
+
+    function applyFilters() {
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const maPhong = row.cells[0].textContent.toLowerCase();
+            const loaiPhongRaw = row.cells[5].textContent.toLowerCase();
+            const [mayLanhValue, nauAnValue] = loaiPhongRaw.replace("không có", "không").split("|").map(s => s.trim());
+
+            const matchesSearch = maPhong.includes(currentSearch);
+            let matchesFilter = true;
+
+            switch (currentFilter) {
+                case "máy lạnh":
+                    matchesFilter = mayLanhValue === "máy lạnh" && nauAnValue === "không";
+                    break;
+                case "cho nấu ăn":
+                    matchesFilter = mayLanhValue === "không" && nauAnValue === "cho nấu ăn";
+                    break;
+                case "both":
+                    matchesFilter = mayLanhValue === "máy lạnh" && nauAnValue === "cho nấu ăn";
+                    break;
+                default:
+                    matchesFilter = true;
+            }
+
+            row.style.display = matchesSearch && matchesFilter ? "" : "none";
         });
+    }
+
+    searchInput.addEventListener("keyup", function () {
+        currentSearch = this.value.toLowerCase();
+        applyFilters();
+    });
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            currentFilter = btn.getAttribute("data-filter").toLowerCase();
+            applyFilters();
+        });
+    });
+
+    clearButton.addEventListener("click", () => {
+        currentSearch = "";
+        currentFilter = "";
+        searchInput.value = "";
+        applyFilters();
     });
 </script>
 
 
 
 
+@functions {
+    public string GetTrangThaiText(int soluongdk, int soluongSv)
+    {
+        if (soluongdk >= soluongSv)
+            return "Đầy";
+        else
+            return "Còn trống";
+    }
+}

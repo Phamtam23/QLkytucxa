@@ -73,5 +73,20 @@ namespace Quanlykytucxa.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Delete(string id)
+        {
+            var sv = _context.Users.OfType<SinhVien>().FirstOrDefault(s => s.Id == id);
+            if (sv == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(sv); // Xóa sinh viên khỏi DbSet Users
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

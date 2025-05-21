@@ -21,9 +21,9 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group">
-        <label for="sinhVienSelect">Chọn sinh viên:</label>
+        <label for="sinhVienSelect">Chọn người dùng:</label>
         <select asp-for="SinhVienId" class="form-control" id="sinhVienSelect">
-            <option value="all">Tất cả sinh viên</option>
+            <option value="all">Tất cả người dùng</option>
             @foreach (var sv in Model.SinhViens)
             {
                 <option value="@sv.Value">@sv.Text</option>

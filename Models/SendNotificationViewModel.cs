@@ -11,10 +11,12 @@ namespace Quanlykytucxa.Models.ViewModels
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Tiêu đề")]
         public string TieuDe { get; set; }
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Nội dung")]
         public string NoiDung { get; set; }
 
         public SelectList SinhViens { get; set; } // Dùng để bind dropdown

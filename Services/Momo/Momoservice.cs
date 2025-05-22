@@ -68,7 +68,7 @@ namespace Quanlykytucxa.Services.Momo
         public async Task<MomoCreatePaymentResponeModel> CreatePaymentMomo(OrderInforModel model)
         {
             model.OrderId = DateTime.UtcNow.Ticks.ToString();
-            model.OrderInformation = "Khách hàng:" + model.FullName + "Nội dung" + model.OrderInformation;
+            model.OrderInformation = "Khách hàng:" + model.FullName + "|Nội dung:" + model.OrderInformation;
             var rawData =
              $"partnerCode={_options.Value.PartnerCode}&" +
              $"accessKey={_options.Value.AccessKey}&" +

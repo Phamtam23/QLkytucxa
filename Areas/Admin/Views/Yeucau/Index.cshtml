@@ -1,0 +1,189 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewBag.Title = "Chi tiết phản hồi";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var thang = ViewBag.thang;
+    var nam = ViewBag.nam;
+    var trangthai = (string)(ViewBag.trangthai ?? "");
+    string selectedTatCa = string.IsNullOrEmpty(trangthai) ? "selected" : "";
+    string selectedDaXuLy = trangthai == "Đã xử lý" ? "selected" : "";
+    string selectedChuaXuLy = trangthai == "Chưa xử lý" ? "selected" : "";
+}
+@model List<Quanlykytucxa.Models.YeuCauSuaChua>
+
+<h2 class="m-3">Danh sách cá yêu cầu</h2>
+
+<div class="info">
+    <form method="get" asp-area="Admin" asp-controller="Yeucau" asp-action="Index">
+        <label><strong>Chọn tháng:</strong></label>
+        <select name="thang" onchange="this.form.submit()">
+            @for (int i = 1; i <= 12; i++)
+            {
+                if (i == thang)
+                {
+                    <option value="@i" selected>Tháng @i</option>
+                }
+                else
+                {
+                    <option value="@i">Tháng @i</option>
+                }
+
+            }
+        </select>
+        <label><strong>Chọn năm:</strong></label>
+        <select name="nam" onchange="this.form.submit()">
+            @for (int j = 2023; j <= 2025; j++)
+            {
+                if (j == nam)
+                {
+                    <option value="@j" selected>@j</option>
+                }
+                else
+                {
+                    <option value="@j">@j</option>
+                }
+            }
+
+
+        </select>
+        <label><strong>Trạng thái:</strong></label>
+        <select name="trangthai" onchange="this.form.submit()">
+            <option value="" selected="@(string.IsNullOrEmpty(trangthai) ? "selected" : null)">Tất cả</option>
+            <option value="Đã xử lý" selected="@(trangthai == "Đã xử lý" ? "selected" : null)">Đã xử lý</option>
+            <option value="Chưa xử lý" selected="@(trangthai == "Chưa xử lý" ? "selected" : null)">Chưa xử lý</option>
+        </select>
+    </form>
+
+    <p><strong>Thời gian lọc:</strong> Tháng, Năm</p>
+</div>
+
+<table class="repair-table">
+    <thead>
+        <tr>
+            <th>Mã yêu cầu</th>
+            <th>Nội dung</th>
+            <th>Số lượng</th>
+            <th>Ngày gửi</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var parts = item.Ghichu.Split('|');
+            <tr>
+                <td>@item.MaYeuCau</td>
+                <td>@parts[0]</td>
+                <td>@parts[1]</td>
+                <td>@item.Ngaygui.ToString("dd/MM/yyyy")</td>
+                @if (item.TrangThai.Equals("Đã xử lý"))
+                {
+                    <td><p class="text-succes ">@item.TrangThai</p></td>
+                }
+                else
+                {
+                    <td>
+                        <form method="post" asp-area="Admin" asp-controller="Yeucau" asp-action="Hoanthanh">
+                            <input type="hidden" name="mayeucau" value="@item.MaYeuCau" />
+                            <button type="submit" class="status-btn">Thực hiện</button>
+                        </form>
+                    </td>
+                }
+                <td></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
+    .info p {
+        margin: 10px 0;
+    }
+
+    .report-section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .dropdown, .input-box {
+        padding: 8px;
+        margin-right: 10px;
+    }
+
+    .confirm-btn {
+        background-color: #28a745;
+        padding: 8px 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .confirm-btn:hover {
+            background-color: #3399ff;
+        }
+
+    .note {
+        font-style: italic;
+        color: #555;
+    }
+
+    .repair-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .repair-table th, .repair-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .repair-table th {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+    .status-btn {
+        background-color: lightgray;
+        border: none;
+        padding: 6px 10px;
+        font-weight: bold;
+    }
+
+
+    .status-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .status-btn:hover {
+            background-color: #2a72d7;
+            color: white;
+        }
+
+    .text-succes {
+        color: #28a745; /* Màu xanh lá */
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 4px;
+        background-color: #d4edda;
+        display: inline-block;
+    }
+
+</style>

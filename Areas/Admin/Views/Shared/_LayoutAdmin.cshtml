@@ -17,7 +17,7 @@
 
         .sidebar {
             width: 250px;
-            height: 100vh;
+            height: 400px;
             background-color: #2f353a;
             color: white;
             padding: 15px;
@@ -125,7 +125,7 @@
         <div class="sidebar">
             <div class="logo">
                 <div class="logo-icon">A</div>
-                <span>VanHiep.Net</span>
+                <span>Quản lý ký túc x</span>
             </div>
 
             <div class="menu">
@@ -135,7 +135,7 @@
                             <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house"></i>Trang chủ</a></li>
                             <li><a asp-area="Admin" asp-controller="ArrangeRoom" asp-action="Index"><i class="fa-solid fa-bell"></i>Thông báo đến</a></li>
                             <li><a href="cai-dat.html"><i class="fa-solid fa-cog"></i>Cài đặt</a></li>
-                            <li><a href="dang-xuat.html"><i class="fa-solid fa-sign-out-alt"></i>Đăng xuất</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-sign-out-alt"></i>Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>

@@ -61,7 +61,7 @@ namespace Quanlykytucxa.Controllers
             }
             var phong = _context.Phongs.FirstOrDefault(p => p.MaPhong == maphong);
             var sinhvien = _context.SinhViens.FirstOrDefault(sv => sv.Id== userId);
-            bool dkphong = _context.DangKyKtxes.Any(dk => dk.SinhVienId == userId && (dk.TrangThai == "Hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
+            bool dkphong = _context.DangKyKtxes.Any(dk => dk.SinhVienId == userId && (dk.TrangThai == "Đang hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
 
 
             if (gioiTinh==gt)

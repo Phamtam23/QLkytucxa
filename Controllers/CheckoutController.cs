@@ -29,8 +29,8 @@ namespace Quanlykytucxa.Controllers
         {
             var requestQuery = HttpContext.Request.Query;
             var response =  _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
-            var part = model.orderInfo.Split('|');
-            if (part[0].Equals("Thanh toán tiền phòng"))
+            var part = response.OrderInfo.Split('|');
+            if (part[1].Equals("Nội dung:Thanh toán tiền phòng"))
             {
                 var dangKyKtxHoatDong = _context.DangKyKtxes
                     .FirstOrDefault(dk => dk.SinhVienId == model.extraData
@@ -54,9 +54,9 @@ namespace Quanlykytucxa.Controllers
 
             }
             else
-                if (part[0].Equals("Thanh toán dịch vụ"))
+                if (part[1].Equals("Nội dung:Thanh toán dịch vụ"))
             {
-                ChitietDkdichvu ct = _context.ChitietDkdichvus.FirstOrDefault(ct => ct.MaDk == part[1]&&ct.MaDv==part[2]);
+                ChitietDkdichvu ct = _context.ChitietDkdichvus.FirstOrDefault(ct => ct.MaDk == part[2]&&ct.MaDv==part[3]);
                 if (ct != null)
                 {
                     ct.Trangthai =1;
@@ -65,7 +65,7 @@ namespace Quanlykytucxa.Controllers
                 }
                 else
                 {
-                    Diennuoc dn = _context.Diennuocs.FirstOrDefault(dn => dn.MaDn == part[1]);
+                    Diennuoc dn = _context.Diennuocs.FirstOrDefault(dn => dn.MaDn == part[2]);
                     dn.TransId = model.transId;
                     _context.Diennuocs.Update(dn);
                     await _context.SaveChangesAsync();

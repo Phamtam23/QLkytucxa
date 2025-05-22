@@ -18,7 +18,7 @@ namespace Quanlykytucxa.Controllers
         public IActionResult Index()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var dk=_context.DangKyKtxes.FirstOrDefault(dk => dk.SinhVienId == userId && (dk.TrangThai == "Hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
+            var dk=_context.DangKyKtxes.FirstOrDefault(dk => dk.SinhVienId == userId && (dk.TrangThai == "Đang hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
             var dssuachua = _context.YeuCauSuaChuas
                 .Where(sc => sc.MaPhong == dk.MaPhong&&sc.Ngaygui<=dk.NgayKetThuc&&sc.Ngaygui>=dk.NgayDangKy)
                 .ToList();
@@ -38,7 +38,7 @@ namespace Quanlykytucxa.Controllers
 
             var dk = _context.DangKyKtxes
                 .FirstOrDefault(dk => dk.SinhVienId == userId &&
-                                      (dk.TrangThai == "Hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
+                                      (dk.TrangThai == "Đang hoạt động" || dk.TrangThai == "Đang chờ xử lý"));
 
             if (dk == null)
             {

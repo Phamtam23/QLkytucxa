@@ -59,14 +59,8 @@ namespace Quanlykytucxa.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 // 1. Sinh mã điện nước mới
-                string newMaDn = "DN001";
-                var lastDn = await _context.Diennuocs.OrderByDescending(dn => dn.MaDn).FirstOrDefaultAsync();
-                if (lastDn != null)
-                {
-                    string soCuoi = lastDn.MaDn.Substring(2);
-                    int soMoi = int.Parse(soCuoi) + 1;
-                    newMaDn = "DN" + soMoi.ToString("D3");
-                }
+               string newMaDn =DateTime.Now.ToString("yyMMddHHmm"); ;
+             
 
                 // 2. Tạo bản ghi Điện Nước từ dữ liệu người dùng nhập
                 var diennuoc = new Diennuoc
@@ -86,15 +80,8 @@ namespace Quanlykytucxa.Areas.Admin.Controllers
                 var tienD = (model.Sodien ?? 0) * (model.Giadien ?? 0);
                 var tienNc = (model.Sonuoc ?? 0) * (model.Gianuoc ?? 0);
 
-                // 4. Sinh mã hóa đơn mới
-                string newMaHoaDon = "HD001";
-                var lastHoaDon = await _context.HoaDons.OrderByDescending(h => h.MaHoaDon).FirstOrDefaultAsync();
-                if (lastHoaDon != null)
-                {
-                    string soCuoi = lastHoaDon.MaHoaDon.Substring(2);
-                    int soMoi = int.Parse(soCuoi) + 1;
-                    newMaHoaDon = "HD" + soMoi.ToString("D3");
-                }
+                string newMaHoaDon = newMaDn;
+
 
                 // 5. Tạo hóa đơn tương ứng với MaDn mới tạo
                 var hoaDon = new HoaDon

@@ -1,0 +1,27 @@
+﻿@model Quanlykytucxa.Models.HoaDonCreateViewModel
+
+@{
+    ViewBag.Title = "Bill-Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var tienDien = (Model.Sodien ?? 0) * (Model.Giadien ?? 0);
+    var tienNuoc = (Model.Sonuoc ?? 0) * (Model.Gianuoc ?? 0);
+    var tongTien = tienDien + tienNuoc;
+}
+
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Xem chi tiết hóa đơn</h2>
+
+<table class="table table-bordered table-hover">
+    <tr><th>Mã hóa đơn</th><td>@Model.MaHoaDon</td></tr>
+    <tr><th>Mã phòng</th><td>@Model.MaPhong</td></tr>
+    <tr><th>Tháng</th><td>@Model.Ngaytao?.ToString("MM/yyyy")</td></tr>
+    <tr><th>Số điện</th><td>@Model.Sodien</td></tr>
+    <tr><th>Giá điện</th><td>@Model.Giadien?.ToString("N0") đ</td></tr>
+    <tr><th>Tiền điện</th><td>@tienDien.ToString("N0") đ</td></tr>
+    <tr><th>Số nước</th><td>@Model.Sonuoc</td></tr>
+    <tr><th>Giá nước</th><td>@Model.Gianuoc?.ToString("N0") đ</td></tr>
+    <tr><th>Tiền nước</th><td>@tienNuoc.ToString("N0") đ</td></tr>
+    <tr><th><b>Tổng tiền</b></th><td><b>@tongTien.ToString("N0") đ</b></td></tr>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

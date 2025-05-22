@@ -1,21 +1,19 @@
 ﻿@model Quanlykytucxa.Models.HoaDonCreateViewModel
 
 @{
-    ViewBag.Title = "Bill-Create";
+    ViewBag.Title = "Bill-Edit";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Tạo hóa đơn</h2>
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Chỉnh sửa hóa đơn Phòng @Model.MaPhong</h2>
 
-<form asp-action="Create" method="post">
-    <input type="hidden" asp-for="MaDn" />
+<form asp-action="Edit" method="post">
+    @Html.HiddenFor(m => m.MaHoaDon)
+    @Html.HiddenFor(m => m.MaDn)
 
     <div class="form-group">
         <label asp-for="MaPhong">Mã phòng</label>
-        <select asp-for="MaPhong" class="form-control" asp-items="ViewBag.MaPhongList">
-            <option value="">-- Chọn phòng --</option>
-        </select>
-        <span asp-validation-for="MaPhong" class="text-danger"></span>
+        <input asp-for="MaPhong" class="form-control" readonly />
     </div>
 
     <div class="form-group">
@@ -42,7 +40,13 @@
         <span asp-validation-for="Gianuoc" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Thêm</button>
+    <div class="form-group">
+        <label asp-for="Ngaytao">Ngày tạo</label>
+        <input asp-for="Ngaytao" class="form-control" type="date" />
+        <span asp-validation-for="Ngaytao" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
 

@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Lịch sử đặt phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var hocKyHienTai = "Học kỳ 01 - Năm học 2023-2024";
+
+    var lichSuDatPhong = new List<dynamic>
+{
+        new { Phong = "B201", ThoiGian = "01/10/2023 - 31/12/2023", TrangThai = "Đã xác nhận", Gia = "1.500.000đ" },
+        new { Phong = "A302", ThoiGian = "01/01/2024 - 30/04/2024", TrangThai = "Đã hủy", Gia = "1.500.000đ" },
+        new { Phong = "C103", ThoiGian = "01/05/2024 - 31/08/2024", TrangThai = "Chờ duyệt", Gia = "1.500.000đ" }
+    };
+}
+
+<h2>Lịch sử đặt phòng</h2>
+
+<div class="current-term">
+    <strong>Học kỳ hiện tại:</strong> @hocKyHienTai
+</div>
+
+<div class="booking-history">
+    @foreach (var item in lichSuDatPhong)
+    {
+        <div class="booking-card">
+            <div class="booking-info">
+                <p class="room-title">
+                    <i class="fa-solid fa-building-user"></i>
+                    <strong>Phòng:</strong> @item.Phong
+                </p>
+                <p><strong>Thời gian sử dụng:</strong> @item.ThoiGian</p>
+                <p><strong>Trạng thái:</strong> <span class="status">@item.TrangThai</span></p>
+                <p><strong>Giá:</strong> @item.Gia</p>
+                <button class="detail-btn">Xem chi tiết</button>
+            </div>
+            <div class="booking-image">
+                <img src="~/img/nen.jpg" alt="Room" />
+            </div>
+        </div>
+    }
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    .booking-history {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .booking-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #d0e3f1;
+        border-radius: 10px;
+        background-color: #eaf4ff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .booking-info {
+        flex: 1;
+    }
+
+    .booking-image img {
+        max-width: 200px;
+        max-height: 200px;
+        object-fit: contain;
+
+    }
+
+    .room-title i {
+        color: #007bff;
+        margin-right: 8px;
+    }
+
+    .status {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .detail-btn {
+        margin-top: 10px;
+        padding: 6px 14px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+    }
+
+        .detail-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .current-term {
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #333;
+    }
+</style>

@@ -1,0 +1,9 @@
+*.suo
+quanlyktucxa.Views.dll
+quanlyktucxa.Views.pdb
+quanlyktucxa.dll
+quanlyktucxa.pdb
+quanlyktucxa.RazorCoreGenerate.cache
+quanlyktucxa.csproj.CoreCompileInputs.cache
+quanlyktucxa.csproj.FileListAbsolute.txt
+*.cshtml.g.cs

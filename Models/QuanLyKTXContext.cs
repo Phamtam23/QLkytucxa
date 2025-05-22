@@ -1,12 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace Quanlykytucxa.Models
 {
-    public partial class QuanLyKTXContext : DbContext
+    public partial class QuanLyKTXContext : IdentityDbContext<SinhVien, IdentityRole, string>
     {
         public QuanLyKTXContext()
         {
@@ -40,8 +43,25 @@ namespace Quanlykytucxa.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
+            base.OnModelCreating(modelBuilder);
+            var admin = new IdentityRole("admin");
+            admin.NormalizedName = "admin";
+            var client = new IdentityRole("client");
+            client.NormalizedName = "client";
+            modelBuilder.Entity<IdentityRole>().HasData(admin, client);
 
+
+            modelBuilder.HasAnnotation("Relational:Collation", "Vietnamese_CI_AS");
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+          .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            modelBuilder.Entity<IdentityUserToken<string>>()
+                .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+            modelBuilder.Entity<IdentityUserRole<string>>()
+                .HasKey(r => new { r.UserId, r.RoleId });
+            modelBuilder.Entity<IdentityUserClaim<string>>()
+                .HasKey(c => c.Id);
+            modelBuilder.Entity<IdentityRoleClaim<string>>()
+                .HasKey(c => c.Id);
             modelBuilder.Entity<ChitietDkdichvu>(entity =>
             {
                 entity.HasKey(e => new { e.MaDk, e.MaDv })
@@ -97,13 +117,7 @@ namespace Quanlykytucxa.Models
 
                 entity.Property(e => e.MaPhong).HasColumnName("maPhong");
 
-                entity.Property(e => e.MaSv)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("maSV")
-                    .IsFixedLength(true);
-
+          
                 entity.Property(e => e.NgayDangKy).HasColumnType("date");
 
                 entity.Property(e => e.NgayKetThuc).HasColumnType("date");
@@ -126,11 +140,7 @@ namespace Quanlykytucxa.Models
                     .HasForeignKey(d => d.MaPhong)
                     .HasConstraintName("FK__DangKyKTX__maPho__3B75D760");
 
-                entity.HasOne(d => d.MaSvNavigation)
-                    .WithMany(p => p.DangKyKtxes)
-                    .HasForeignKey(d => d.MaSv)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DangKyKTX__maSV__3A81B327");
+               
             });
 
             modelBuilder.Entity<DichvuKtx>(entity =>
@@ -376,27 +386,22 @@ namespace Quanlykytucxa.Models
                     .HasConstraintName("FK__Phong__maloai__35BCFE0A");
             });
 
+            modelBuilder.Entity<DangKyKtx>()
+                .HasOne(d => d.SinhVien)
+                .WithMany(s => s.DangKyKtxes)
+                .HasForeignKey(d => d.SinhVienId)
+                .HasConstraintName("FK_DangKyKtx_SinhVien");
+
             modelBuilder.Entity<SinhVien>(entity =>
             {
-                entity.HasKey(e => e.MaSv)
-                    .HasName("PK__SinhVien__7A227A64A3023504");
-
+             
                 entity.ToTable("SinhVien");
-
-                entity.HasIndex(e => e.EmailSv, "UQ__SinhVien__87356E2023EBE057")
-                    .IsUnique();
 
                 entity.HasIndex(e => e.Cccd, "UQ__SinhVien__A955A0AA840616F4")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Sdt, "UQ__SinhVien__CA1930A577F0B174")
                     .IsUnique();
-
-                entity.Property(e => e.MaSv)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("maSV")
-                    .IsFixedLength(true);
 
                 entity.Property(e => e.Cccd)
                     .IsRequired()
@@ -407,30 +412,9 @@ namespace Quanlykytucxa.Models
                 entity.Property(e => e.DiaChi)
                     .IsRequired()
                     .HasMaxLength(100);
-
-                entity.Property(e => e.EmailSv)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("emailSV");
-
                 entity.Property(e => e.GioiTinh)
                     .IsRequired()
                     .HasMaxLength(3);
-
-                entity.Property(e => e.Khoa)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Lop)
-                    .IsRequired()
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.MatKhau)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.NgaySinh).HasColumnType("date");
 
                 entity.Property(e => e.Sdt)
@@ -456,14 +440,13 @@ namespace Quanlykytucxa.Models
                     .ValueGeneratedNever()
                     .HasColumnName("maThongBao");
 
-                entity.Property(e => e.MaSv)
+                entity.Property(e => e.SinhVienId)              // chính là cột khóa ngoại
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("maSV")
-                    .IsFixedLength(true);
+                    .HasMaxLength(450)                         // Chuẩn IdentityUser Id
+                    .HasColumnName("SinhVienId");             // hoặc để tên khác tùy DB
 
-                entity.Property(e => e.NgayDang).HasColumnType("datetime");
+                entity.Property(e => e.NgayDang)
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.NoiDung)
                     .IsRequired()
@@ -473,12 +456,14 @@ namespace Quanlykytucxa.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.HasOne(d => d.MaSvNavigation)
+                entity.HasOne(d => d.SinhVien)
                     .WithMany(p => p.ThongBaos)
-                    .HasForeignKey(d => d.MaSv)
+                    .HasForeignKey(d => d.SinhVienId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ThongBao__maSV__5070F446");
+                    .HasConstraintName("FK_ThongBao_SinhVien");
             });
+
+
 
             modelBuilder.Entity<YeuCauSuaChua>(entity =>
             {
@@ -495,13 +480,10 @@ namespace Quanlykytucxa.Models
 
                 entity.Property(e => e.MaPhong).HasColumnName("maPhong");
 
-                entity.Property(e => e.MaSv)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("maSV")
-                    .IsFixedLength(true);
-
+                entity.Property(e => e.SinhVienId)              // chính là cột khóa ngoại
+                        .IsRequired()
+                        .HasMaxLength(450)                         // Chuẩn IdentityUser Id
+                        .HasColumnName("SinhVienId");             // hoặc để tên khác tùy DB
                 entity.Property(e => e.TrangThai)
                     .HasMaxLength(20)
                     .HasDefaultValueSql("('Đang th?c hi?n')");
@@ -511,9 +493,9 @@ namespace Quanlykytucxa.Models
                     .HasForeignKey(d => d.MaPhong)
                     .HasConstraintName("FK__YeuCauSua__maPho__4D94879B");
 
-                entity.HasOne(d => d.MaSvNavigation)
+                entity.HasOne(d => d.SinhVien)
                     .WithMany(p => p.YeuCauSuaChuas)
-                    .HasForeignKey(d => d.MaSv)
+                    .HasForeignKey(d => d.SinhVienId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__YeuCauSuaC__maSV__4CA06362");
             });

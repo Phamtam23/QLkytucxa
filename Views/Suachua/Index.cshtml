@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "Chi tiết phản hồi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<Quanlykytucxa.Models.YeuCauSuaChua>
+<h2>Nếu phòng có sự cố hãy phản hồi</h2>
+
+<div class="info">
+    <!-- Bộ lọc học kỳ -->
+    <form method="get" asp-controller="PhanHoi" asp-action="ChiTietPhanHoi">
+        <label for="semester"><strong>Chọn học kỳ:</strong></label>
+        <select id="semester" name="semester" onchange="this.form.submit()">
+            <option value="01">Học kỳ 01</option>
+            <option value="02">Học kỳ 02</option>
+            <option value="03">Học kỳ 03</option>
+        </select>
+    </form>
+    <form method="get" asp-controller="PhanHoi" asp-action="ChiTietPhanHoi">
+        <label for="semester"><strong>Chọn năm học:</strong></label>
+        <select id="semester" name="semester" onchange="this.form.submit()">
+            <option value="01">2023</option>
+            <option value="02">2024</option>
+            <option value="03">2025</option>
+        </select>
+    </form>
+    <p><strong>Thời gian sử dụng:</strong> 01/10/2023 đến 31/12/2023</p>
+</div>
+
+<div class="report-section">
+    <form method="post" asp-area="" asp-controller="Suachua" asp-action="Addyeucau">
+        <select name="noidung" class="dropdown">
+            <option>Cơ sở vật chất</option>
+            <option>Đèn hỏng</option>
+            <option>Bồn cầu nghẹt</option>
+        </select>
+        <input type="number" name="soluong" placeholder="Nhập số lượng" class="input-box" min="1" max="50" required />
+        <button class="confirm-btn">Xác nhận</button>
+    </form>
+</div>
+
+<p class="note">
+    * Hệ thống sẽ phản hồi trong vòng 3 ngày. Bạn sẽ nhận được thông tin phản hồi trên hệ thống này và email sinh viên *
+</p>
+
+<table class="repair-table">
+    <thead>
+        <tr>
+            <th>Mã yêu cầu</th>
+            <th>Nội dung</th>
+            <th>Số lượng</th>
+            <th>Ngày gửi</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(YeuCauSuaChua item in Model){
+            var parts = item.Ghichu.Split('|');
+            <tr>
+                <td>@item.MaYeuCau</td>
+                <td>@parts[0]</td>
+                <td>@parts[1]</td>
+                <td>@item.Ngaygui</td>
+                <td><button class="status-btn">@item.TrangThai</button></td>
+                <td></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        margin:10px 0;
+        font-weight: bold;
+    }
+
+    .info p {
+        margin: 10px 0;
+    }
+
+    .report-section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .dropdown, .input-box {
+        padding: 8px;
+        margin-right: 10px;
+    }
+
+    .confirm-btn {
+        background-color: #28a745;
+        padding: 8px 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+        .confirm-btn:hover {
+            background-color: #3399ff;
+        }
+    .note {
+        font-style: italic;
+        color: #555;
+    }
+
+    .repair-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .repair-table th, .repair-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .repair-table th {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+    .status-btn {
+        background-color: lightgray;
+        border: none;
+        padding: 6px 10px;
+        font-weight: bold;
+    }
+</style>

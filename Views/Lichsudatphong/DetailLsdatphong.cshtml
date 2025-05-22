@@ -1,0 +1,274 @@
+﻿@{
+    ViewBag.Title = "Chi tiết lịch sử đặt phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<SinhVien> SignInManager;
+@inject UserManager<SinhVien> UserManager
+
+@model Quanlykytucxa.Models.DangKyKtx
+
+<h2 class="header">Thông tin phòng và dịch vụ đã đăng ký</h2>
+
+
+<div class="lichsu_top">
+
+    <div class="infor">
+
+        <p><b>Tên phòng</b>: @Model.MaPhongNavigation.MaPhong.ToString("00000")</p>
+        <p><b>Dịch vụ</b>: @Model.MaPhongNavigation.MaloaiNavigation.Tenloai</p>
+        <p><b>Khu</b>: Khu A</p>
+        <p><b>Giá phòng</b>: @Model.MaPhongNavigation.Tienphong</p>
+        <p><b>Thời gian</b>: @Model.NgayDangKy</p>
+        <p class="status">
+            <span class="chua">@Model.TrangThai</span>
+        </p>
+    </div>
+
+    <table class="dichvu">
+        <thead>
+            <tr>
+                <th>Tên dịch vụ</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (ChitietDkdichvu item in ViewBag.dsdichvu)
+            {
+                <tr>
+                    <th>@item.MaDvNavigation.Ghichu</th>
+                    <th>@item.MaDvNavigation.Giadichvu</th>
+                    <th>
+                        <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
+                            <input type="hidden" name="FullName" value="@user.TenSv" />
+                            <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                            <input type="hidden" name="OrderInformation" value="Thanh toán dịch vụ|@item.MaDk|@item.MaDv" />
+                            <input type="hidden" name="Amount" value="@item.MaDvNavigation.Giadichvu" />
+                            <input type="hidden" name="ExtraData" value="@user.Id" />
+                            @if (item.Trangthai == 1)
+                            {
+                                <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+                            }
+                            else
+                            {
+                                <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán</button>
+                            }
+
+                        </form>
+                    </th>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+<div class="warning">
+    <span class="icon">⚠</span>
+    Hạn cuối thanh toán tiền phòng là <b>10-09-2024</b>.
+    Nếu không thanh toán đúng hạn, bạn sẽ bị đưa vào <b>DANH SÁCH ĐEN</b>,
+    bị xóa toàn bộ dịch vụ đã đăng ký và không hoàn tiền.
+    <br />
+
+
+    <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
+        <input type="hidden" name="FullName" value="@user.TenSv" />
+        <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+        <input type="hidden" name="OrderInformation" value="Thanh toán tiền phòng|@Model.MaPhong" />
+        <input type="hidden" name="Amount" value="@Model.MaPhongNavigation.Tienphong" />
+        <input type="hidden" name="ExtraData" value="@user.Id" />
+        @if (Model.TrangThai.Equals("Đang hoạt đông"))
+        {
+            <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+        }
+        else
+        {
+            <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán tại đây</button>
+        }
+
+    </form>
+
+
+</div>
+
+<hr />
+
+<h3 class="header">Hóa đơn điện nước</h3>
+<table class="bill-table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Số điện</th>
+            <th>Số nước</th>
+            <th>Giá điện (1/kw)</th>
+            <th>Giá nước(Khối)</th>
+            <th>Tổng tiền</th>
+            <th>Số lượng sinh viên</th>
+            <th>Phòng</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Diennuoc dn in ViewBag.dsdiennuoc)
+        {
+            <tr>
+                <td>1</td>
+                <td>@dn.Sodien</td>
+                <td>@dn.Sonuoc</td>
+                <td>@dn.Giadien VND</td>
+                <td>@dn.Gianuoc VND</td>
+                <td>@(dn.Sodien * dn.Giadien + dn.Sonuoc * dn.Gianuoc) VND</td>
+                <td>@Model.MaPhongNavigation.SoluongSv</td>
+                <td>@Model.MaPhongNavigation.MaPhong.ToString("00000") VND</td>
+                <td>
+                    <form method="POST" asp-area="" asp-action="CreatePaymentURL" asp-controller="Payment">
+                        <input type="hidden" name="FullName" value="@user.TenSv" />
+                        <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                        <input type="hidden" name="OrderInformation" value="Thanh toán điện nước|@dn.MaDn" />
+                        <input type="hidden" name="Amount" value="@(dn.Sodien * dn.Giadien + dn.Sonuoc * dn.Gianuoc)" />
+                        <input type="hidden" name="ExtraData" value="@user.Id" />
+                        @if (dn.TransId!=null)
+                        {
+                            <p class="bg-green-500 text-white px-3 py-1 rounded">Đã thanh toán</p>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" name="Payurl" type="submit">Thanh toán</button>
+                        }
+
+                    </form>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+<style>
+
+    .lichsu_top {
+        display: flex;
+    }
+
+    .infor {
+        flex: 2;
+    }
+
+        .infor p {
+            font-size: 20px;
+        }
+
+    .dichvu {
+        flex: 2;
+        border-collapse: collapse;
+    }
+
+    .header {
+        color: orange;
+        border-bottom: 2px solid orange;
+        padding-bottom: 5px;
+        margin-top: 20px;
+    }
+
+    .dichvu td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+    .price {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .status .chua {
+        color: red;
+        font-style: italic;
+    }
+
+    .status .da {
+        color: green;
+        font-style: italic;
+    }
+
+    .warning {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
+        .warning .icon {
+            font-weight: bold;
+            margin-right: 5px;
+            color: red;
+        }
+
+    .bill-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .bill-table th, .bill-table td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .bill-table th {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+    .dichvu {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 15px;
+    }
+
+        .dichvu thead {
+            background-color: #0d6efd; /* cam đậm */
+            color: white;
+        }
+
+        .dichvu th, .dichvu td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .dichvu a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .dichvu a:hover {
+                text-decoration: underline;
+                color: #0056b3;
+            }
+
+    .bill-table a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .bill-table a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+    .succec {
+        color: limegreen;
+    }
+</style>

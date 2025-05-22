@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+
+}
+@using Quanlykytucxa.Viewmodel;
+@model Loginviewmodel;
+
+<style>
+    .account-container {
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat-y;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .account-box {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 100%;
+        opacity: 0.9;
+    }
+</style>
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Login</h2>
+        <form asp-action="Login" asp-area="" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <label class="form-check-label">
+                    <input asp-for="RemeberMe" class="form-check-input" />
+                    @Html.DisplayNameFor(a => a.RemeberMe)
+                </label>
+                <a class="m-2" asp-controller="Account" asp-action="VerifyEMail" asp-area="">Quên mật khẩu ?</a>
+            </div>
+            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
+            <p class="text-center mt-2" >Chưa có tài khoản? <a asp-controller="Account" asp-area="" asp-action="Register" class="text-decoration-none">Đăng kí</a></p>
+            <div class="text-center">
+                <a asp-controller="Home" asp-area="" action="Index" class="text-decoration-none mt-3">Back</a>
+            </div>
+        </form>
+    </div>
+</div>

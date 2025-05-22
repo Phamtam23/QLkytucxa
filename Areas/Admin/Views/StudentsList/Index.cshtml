@@ -1,0 +1,75 @@
+﻿@model List<Quanlykytucxa.Models.SinhVien>
+
+@{
+    ViewBag.Title = "StudentsList-Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Danh sách người dùng</h2>
+
+<div>
+    <div>
+        <form method="get" asp-action="Index">
+            <div class="input-group mb-3">
+                <input type="text" name="searchString" class="form-control" placeholder="Tìm kiếm người dùng..." value="@ViewBag.CurrentFilter" />
+                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Tổng số người dùng: @Model.Count()</strong>
+        </div>
+
+        <div style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped text-nowrap">
+                <thead class="table-primary">
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ tên</th>
+                        <th>Giới tính</th>
+                        <th>Số điện thoại</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        var stt = 1;
+                        foreach (var sv in Model)
+                        {
+                            <tr>
+                                <td>@stt</td>
+                                <td>@sv.TenSv</td>
+                                <td>@sv.GioiTinh</td>
+                                <td>@sv.Sdt</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" asp-area="Admin" asp-controller="StudentsList" asp-action="UpdateSV" asp-route-id="@sv.Id"><i class="fa-solid fa-pen"></i></a>
+                                    <form asp-area="Admin" asp-controller="StudentsList" asp-action="Delete" asp-route-id="@sv.Id"
+                                          method="post" style="display:inline;"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa sinh viên này không?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    <a class="btn btn-info btn-sm" asp-area="Admin" asp-controller="StudentsList" asp-action="Detail" asp-route-id="@sv.Id"><i class="fa-solid fa-magnifying-glass"></i></a>
+                                </td>
+                            </tr>
+                            stt++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">Không có sinh viên nào.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .icon {
+        margin-right: 10px;
+    }
+</style>

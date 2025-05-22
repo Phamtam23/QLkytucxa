@@ -1,0 +1,57 @@
+﻿@model Quanlykytucxa.Models.HoaDonCreateViewModel
+
+@{
+    ViewBag.Title = "Bill-Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Chỉnh sửa hóa đơn Phòng @Model.MaPhong</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.HiddenFor(m => m.MaHoaDon)
+    @Html.HiddenFor(m => m.MaDn)
+
+    <div class="form-group">
+        <label asp-for="MaPhong">Mã phòng</label>
+        <input asp-for="MaPhong" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sodien">Số điện</label>
+        <input asp-for="Sodien" class="form-control" />
+        <span asp-validation-for="Sodien" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sonuoc">Số nước</label>
+        <input asp-for="Sonuoc" class="form-control" />
+        <span asp-validation-for="Sonuoc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Giadien">Giá điện</label>
+        <input asp-for="Giadien" class="form-control" />
+        <span asp-validation-for="Giadien" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Gianuoc">Giá nước</label>
+        <input asp-for="Gianuoc" class="form-control" />
+        <span asp-validation-for="Gianuoc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Ngaytao">Ngày tạo</label>
+        <input asp-for="Ngaytao" class="form-control" type="date" />
+        <span asp-validation-for="Ngaytao" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,91 @@
+﻿@model Quanlykytucxa.Models.SinhVien
+
+@{
+    ViewBag.Title = "StudentsList-UpdateSV";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="font-size: 48px; border-bottom: 1px solid; padding-left: 10px">Chỉnh sửa thông tin người dùng</h2>
+
+<form asp-action="UpdateSV" method="post" class="mt-4" onsubmit="return confirmSave()">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="UserName">Mã người dùng</label>
+        <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.Id" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="TenSv">Họ tên</label>
+        <input type="text" class="form-control" id="TenSv" name="TenSv" value="@Model.TenSv" />
+    </div>
+
+    <div class="form-group">
+        <label for="NgaySinh">Ngày sinh</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" value="@Model.NgaySinh.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="form-group">
+        <label for="GioiTinh">Giới tính</label>
+        <select class="form-control" id="GioiTinh" name="GioiTinh">
+            <option value="Nam" selected="@(Model.GioiTinh == "Nam" ? "selected" : null)">Nam</option>
+            <option value="Nữ" selected="@(Model.GioiTinh == "Nữ" ? "selected" : null)">Nữ</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Sdt">Số điện thoại</label>
+        <input type="text" class="form-control" id="Sdt" name="Sdt" value="@Model.Sdt" />
+    </div>
+
+    <div class="form-group">
+        <label for="Cccd">CCCD</label>
+        <input type="text" class="form-control" id="Cccd" name="Cccd" value="@Model.Cccd" />
+    </div>
+
+    <div class="form-group">
+        <label for="DiaChi">Địa chỉ</label>
+        <input type="text" class="form-control" id="DiaChi" name="DiaChi" value="@Model.DiaChi" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <button type="button" class="btn btn-primary" onclick="location.reload()">Hoàn tác</button>
+    <a asp-area="Admin" asp-controller="StudentsList" asp-action="Index" class="btn btn-secondary ml-2">Hủy</a>
+</form>
+
+@section Scripts {
+    <script>
+        // Xác nhận khi nhấn Lưu
+        function confirmSave() {
+            return confirm("Bạn có chắc chắn muốn lưu không?");
+        }
+
+        // Dữ liệu gốc ban đầu
+        let originalData = {};
+
+        window.onload = function () {
+            let fields = ["TenSv", "NgaySinh", "GioiTinh", "Sdt", "Cccd", "DiaChi", "Email"];
+            fields.forEach(field => {
+                let element = document.getElementById(field);
+                if (element) {
+                    originalData[field] = element.value;
+                }
+            });
+        };
+
+        function hoanTac() {
+            let fields = Object.keys(originalData);
+            fields.forEach(field => {
+                let element = document.getElementById(field);
+                if (element) {
+                    element.value = originalData[field];
+                }
+            });
+        }
+    </script>
+}

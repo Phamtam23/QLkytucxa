@@ -1,0 +1,51 @@
+﻿@model PhongDetailViewModel
+
+@{
+    ViewBag.Title = "ArrangeRoom-Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="font-size: 48px; padding-left: 10px">Thông tin chi tiết @Model.TenPhong</h2>
+
+<hr />
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>STT</th>
+            <th>Mã người dùng</th>
+            <th>Họ tên</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.SinhVienTrongPhong.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>@Model.SinhVienTrongPhong[i].MSSV</td>
+                <td>@Model.SinhVienTrongPhong[i].HoTen</td>
+                <td>
+                    <form asp-area="Admin" asp-controller="ArrangeRoom" asp-action="DeleteStudent" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa sinh viên này?');" style="display:inline;">
+                        <input type="hidden" name="maPhong" value="@Model.MaPhong" />
+                        <input type="hidden" name="mssv" value="@Model.SinhVienTrongPhong[i].MSSV" />
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<!-- Button để thêm sinh viên -->
+<h4>Thêm người vào phòng</h4>
+<form asp-area="Admin" asp-controller="ArrangeRoom" asp-action="AddStudent" method="post">
+    <input type="hidden" name="maPhong" value="@Model.MaPhong" />
+    <div class="form-group">
+        <label>MSSV</label>
+        <input class="form-control" name="mssv" placeholder="Nhập MSSV" required />
+    </div>
+    <button class="btn btn-success" type="submit">Thêm sinh viên</button>
+</form>

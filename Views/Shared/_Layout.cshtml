@@ -12,7 +12,7 @@
     <style>
         /* Header */
         .custom-header {
-            background-color: #1c2526; /* Nền đen */
+            background-color: #333; /* Nền đen */
             padding: 10px 20px;
         }
 
@@ -70,23 +70,11 @@
             <div>
                 <ul class="main-menu">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="SinhVien" asp-action="XemPhong">Đăng ký phòng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="SinhVien" asp-action="DangKyPhong">Lịch sử phòng ở</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="SinhVien" asp-action="DangKyPhong">Điện nước</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="SinhVien" asp-action="ThanhToanDienNuoc">Thông báo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
-                    </li>
+                   
+                    <partial name="_LoginPartial"/>
+
                 </ul>
             </div>
            
